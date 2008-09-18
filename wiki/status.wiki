@@ -1,0 +1,99 @@
+=Goals=
+AppleTV USB Flash drive creator that runs under OSX, Linux and Windows. The creator consists of various Installers which are capable of delivering a payload. The payload contents depend on the chosen Installer. 
+
+----
+=Installers and payloads=
+
+  # ATV-bootloader
+    * payload - none
+  # ATVMod-patchstick
+    * payload - packages such as openssh, samba, etc
+    * payload - plugins such as ATVFiles, NitoTV, iScripts, etc
+    * payload - specials such as mach_kernel patchs or other items that override native functions.
+  # ATV Factory Restore
+    * payload A - update dmg for recovery restore
+    * payload B - update dmg for disk rebuild 
+  # Linux USB distros
+     
+== Payload - Packages==
+(going to need a script that extracts Archive.pax.gz and repacks into a tar.gz)
+
+These are apps such as openssh that consist of the app and deps. Usually build from !MacPorts or some other source code distribution, a package is a pkg file that contains the app with additional individual pkg files containing the deps. The creator will build a payload on the host platform from selected items (as an mpkg) and eliminate any duplicate deps.
+ * ssh, scp, sfpt, sftp-server via dropbear or openssh
+ * samba
+ * netatalk
+
+== Payload - Plugins==
+These are frappliance apps that extend the functionality of !FrontRow. They install under Finder.app/Contents/Plugins. Plugins do have a dependency on the AppleTV firmware. As such, plugins will have to be matched according to the version of the AppleTV firmware. In addition, plugins use many different package format so there will be a "install.sh" script required to unpack and insert. 
+
+*Important -* Since the payload partition is fat32 format any bash scripts will need to be invoked by bash (for example, bash install.sh). Direct execution of bash script will not be possble under fat32 as the execute flag cannot be set. 
+|| AppleTV || v 1.0 || v 1.1 || v 2.01 || v 2.02 || v 2.10 || verified ||
+|| ATVFiles || v 0.4.0 || v 1.1.1 || v 1.1.1 || v 1.1.1 || v 1.1.1 || yes ||
+|| NitoTV || v 0.3.2  || v 0.3.2  || v 0.4.8 || v 0.4.8 || v 0.4.8 || yes ||
+|| iScripts || none  || none  || v 1.2.2 || v 1.2.2 || none || yes ||
+|| Sapphire || ?  || ?  || ? || ? || ? || ? ||
+|| || ? || ?  || ? || ? || ? || ? ||
+
+
+== Payload - Specials==
+ * mach_kernel - USB whitelist bypass
+ * mach_kernel - turbo_kext_enabler
+ * mach_kernel - SSE3 Emulator
+ * video - composite NTSC/PAL enable
+ *
+
+== Linux USB distros ==
+
+----
+= ATVUSB-Creator =
+note to self, add content
+
+
+----
+= Penbuntu Installation =
+(Note to SDD to change the execution methods to bash invoked (bash /mnt/rootfs/patchstick.sh) and verify fat32 mounting)
+==ATV Filesytem under penbuntu==
+Setup the mount points such that it looks exactly as under ATVOS except /dev/sda3 (OSBoot) is read/write.
+{{{
+mkdir /mnt/OSBoot
+fsck.hfsplus -f /dev/sda3
+mount -t hfsplus -o force,rw /dev/sda3 /mnt/OSBoot
+  
+fsck.hfsplus -f /dev/sda4
+mount -t hfsplus -o force,rw /dev/sda4 /mnt/OSBoot/mnt
+}}}
+
+== Payload filesystem penbuntu==
+The ATVMod-patchstick is started using the standard atv-bootloader (atvboot=patchstick) method. The USB flash drive is setup with two partitions, the first is fat32 and holds the payload contents. The second is the standard atv-bootloader recovery contents. ATVBootloader will search for a "patchstick.sh" by finding disks and mounting the partitions at "/mnt/rootfs". The contents are organized as in the following example.
+{{{
+/mnt/rootfs/patchstick.sh
+
+/mnt/rootfs/payload
+
+/mnt/rootfs/payload/packages
+/mnt/rootfs/payload/packages/zlib-1.2.3.pkg
+/mnt/rootfs/payload/packages/file-4.25.pkg
+... other packages ...
+
+/mnt/rootfs/payload/plugings
+/mnt/rootfs/payload/plugings/ATVFiles
+/mnt/rootfs/payload/plugings/ATVFiles/install.sh
+/mnt/rootfs/payload/plugings/ATVFiles/ATVFiles-1.1.0.tar.gz
+... other plugins ...
+
+/mnt/rootfs/payload/specials
+/mnt/rootfs/payload/specials/turbo_kext_enabler/
+/mnt/rootfs/payload/specials/turbo_kext_enabler/install.sh
+/mnt/rootfs/payload/specials/turbo_kext_enabler/turbo_kext_enabler.bin
+... other plugins ...
+
+/mnt/rootfs/payload/restore
+/mnt/rootfs/payload/restore/appleupdate-v2.1.tar.gz
+
+/mnt/rootfs/payload/backup
+/mnt/rootfs/payload/restore/recovery.tar.gz
+
+}}}
+ * "/mnt/rootfs/payload/restore" is only for factory restore usage
+ * "/mnt/rootfs/payload/backup" is only for holding a backup of the recovery partition (contents)
+
