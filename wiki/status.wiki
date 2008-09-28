@@ -48,11 +48,53 @@ These are frappliance apps that extend the functionality of !FrontRow. They inst
 = ATVUSB-Creator =
  * disk image creation - The disk image is created by injecting boot.efi into a hfsplus partition image, then injecting the hfsplus partition image into a pre-crafted GPT formatted disk image. This two-step process is required because we will need to know the specific sector offset at which to inject a valid boot.efi file (replacing a zeroed dummy.efi). There are OSX tools that can determine this offset but only using a valid hfsplus partition and not that of the final "recovery" hfsplus partition. In addition, parted under Linux cannot create a vfat partition with the correct GUID (it's a bug), so the disk image needs to be pre-crated under OSX. 
 {{{
+# Under OSX
 dd if=/dev/zero of=atv_512MB.img bs=512 count=1000000
 gpt create atv_512MB.img
 gpt -r show atv_512MB.img
 gpt add -b 40 -i 1 -s 948800 -t "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7" atv_512MB.img
 gpt add -b 948840 -i 2 -s 51000 -t "5265636F-7665-11AA-AA11-00306543ECAC" atv_512MB.img
+
+#Under Linux
+# format first partition
+sudo losetup -o 20480 /dev/loop0 atv_512MB.img
+sudo mkfs.vfat -F 32 -n "PATCHSTICK" /dev/loop0
+sudo losetup -d /dev/loop0
+
+# format second partition
+sudo losetup -o 485806080 /dev/loop0 atv_512MB.img
+sudo mkfs.hfsplus -v "Recovery" /dev/loop0
+sudo losetup -d /dev/loop0
+
+#need byte offset
+#sudo mount -t vfat -o loop,rw,offset=20480 atv_512MB.img /mnt/atv1
+#sudo mount -t hfsplus -o loop,rw,offset=485806080 atv_512MB.img /mnt/atv2
+
+gtpsync atv_512MB.img
+
+dd if=/dev/zero of=atv_recv.img bs=512 count=51000
+sudo losetup /dev/loop0 atv_recv.img
+sudo mkfs.hfsplus -v "Recovery" /dev/loop0
+sudo losetup -d /dev/loop0
+sudo mount -t hfsplus -o loop,rw  atv_recv.img /mnt/atv2
+sudo cp recovery/boot.efi /mnt/atv2
+sudo cp recovery/com.apple.Boot.plist /mnt/atv2
+sudo cp recovery/mach_kernel /mnt/atv2
+sudo cp -r recovery/System /mnt/atv2
+sudo cp recovery/BootLogo.png /mnt/atv2
+sudo umount /mnt/atv2
+
+# Under OSX, find the offset to boot.efi. This will be a 4096 byte sector value.
+hdiutil attach atv_recv.img
+hfsdebug /Volumes/Recovery/boot.efi
+
+startBlock = 0x64 = 100 (4096 byte sector)
+blockCount = 0x49 = 73
+
+
+7za a -t7z  atv_recv.7z atv_recv.img 
+7za a -t7z  atv_512MB.7z atv_512MB.img
+
 }}}
 
 
