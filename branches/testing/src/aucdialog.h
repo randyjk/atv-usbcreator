@@ -34,9 +34,14 @@ public:
   AucDialog();
   ~AucDialog();
   
+private slots:
+  void selectFile();
+  
 private:
   //private helpers
   void connectGui();
+  void createPlatformSpecificCreator();
+  void status(QString f_message);
   
   //members
   Ui::AucDialog* mp_ui;
