@@ -29,9 +29,32 @@ AucDialog::AucDialog(): QDialog(), mp_ui(new Ui::AucDialog), mp_creator(0){
   mp_creator = new AtvUsbCreatorLinux;
 #endif
 #endif  
+  connectGui();
 }
 
 AucDialog::~AucDialog(){
   delete mp_ui;  
   delete mp_creator;
+}
+
+void AucDialog::connectGui(){
+  connect(mp_ui->browseButton, SIGNAL(clicked()), this, SLOT(selectfile()));
+  connect(mp_ui->startButton,  SIGNAL(clicked()), this, SLOT(build_installer));
+  connect(mp_ui->installerMenu,  SIGNAL(currentIndexChanged(int)), this, SLOT(set_installer_pict));
+  connect(mp_ui->installerMenu,  SIGNAL(currentIndexChanged(int)), this, SLOT(set_installer_options));
+  connect(mp_ui->installMenu_2,  SIGNAL(currentIndexChanged(int)), this, SLOT(update_options2));
+  connect(mp_ui->installMenu_3,  SIGNAL(currentIndexChanged(int)), this, SLOT(update_options3));
+  connect(mp_ui->installCheckbox,  SIGNAL(stateChanged(int)), this, SLOT(update_options3_fromcheckbox));
+  connect(mp_ui->deviceRefreshButton, SIGNAL(clicked()), this, SLOT(populate_devices));
+  /*
+  connect(mp_ui->live_thread,  SIGNAL(status(PyQt_PyObject)), this, SLOT(status));
+  connect(mp_ui->live_thread,  SIGNAL(finished()), lambda: this, SLOT(enable_widgets(True)));
+  connect(mp_ui->live_thread,  SIGNAL(terminated()), lambda: this, SLOT(enable_widgets(True)));
+  connect(mp_ui->live_thread,  SIGNAL(progress(int)), this, SLOT(progress));
+  connect(mp_ui->live_thread,  SIGNAL(maxprogress(int)), this, SLOT(maxprogress));
+  connect(mp_ui->progress_thread, SIGNAL(progress(int)), this, SLOT(progress));
+  connect(mp_ui->progress_thread, SIGNAL(maxprogress(int)), this, SLOT(maxprogress));
+  connect(mp_ui->download_progress, SIGNAL(progress(int)), this, SLOT(progress));
+  connect(mp_ui->download_progress, SIGNAL(maxprogress(int)), this, SLOT(maxprogress));
+  */
 }

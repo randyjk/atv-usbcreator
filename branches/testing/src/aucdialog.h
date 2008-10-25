@@ -33,7 +33,12 @@ class AucDialog : public QDialog{
 public:
   AucDialog();
   ~AucDialog();
+  
 private:
+  //private helpers
+  void connectGui();
+  
+  //members
   Ui::AucDialog* mp_ui;
   AtvUsbCreatorBase* mp_creator;
 };
