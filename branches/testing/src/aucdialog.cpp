@@ -36,11 +36,12 @@ void AucDialog::selectFile(){
   QString dmgfile = QFileDialog::getOpenFileName(this,"Select AppleTV Update DMG", ".", "DMG (*.dmg)" );
   if( dmgfile.size() ){
     try {
-      //TODO port me
+      //TODO what's the _to_unicode_thing? how can it go wrong?
       //self.live.dmg = self._to_unicode(dmgfile)
+      mp_creator->setDMGPath(dmgfile.toStdString());
     } catch (std::exception& e){ 
       //TODO no loggin yet
-      //self.live.log.error(str(e))
+      mp_creator->logger().error(e.what());
       status("Sorry, I'm having trouble encoding the filename "
             "of your livecd.  You may have better luck if "
             "you move your DMG to the root of your drive "

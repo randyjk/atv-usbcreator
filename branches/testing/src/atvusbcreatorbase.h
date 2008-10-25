@@ -23,11 +23,29 @@
 #ifndef ATVUSBCREATORBASE_H
 #define ATVUSBCREATORBASE_H
 
+#include <string>
+#include <iostream>
+
+//just a dummy for a proper logger
+struct Logger {
+  void error(const std::string& fcr_message){
+    std::cerr << fcr_message << std::endl;
+  }
+};
 
 class AtvUsbCreatorBase
 {
-public:
-private:
 
+public:
+  void setDMGPath(const std::string& fcr_path);
+  void setBootEfiPath(const std::string& fcr_path);
+  
+  //get access to logger functionality
+  Logger& logger();
+  
+private:
+  std::string m_dmg_path;
+  std::string m_bootefi_path;
+  Logger m_logger;
 };
 #endif //ATVUSBCREATORBASE_H
