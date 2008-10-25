@@ -98,17 +98,6 @@ ENDIF(APPLE)
 target_link_libraries(atvusb-creator ${QT_LIBRARIES})
 
 #--------------------------------------------------------------------------------
-# If we are build a "Debug" version then put that on the built Application
-SET (EXE_DEBUG_EXTENSION "_debug")
-#-- Set the Debug and Release names for the libraries
-SET_TARGET_PROPERTIES(atvusb-creator 
-    PROPERTIES
-    DEBUG_OUTPUT_NAME atvusb-creator${EXE_DEBUG_EXTENSION}
-    RELEASE_OUTPUT_NAME atvusb-creator
-)
-
-
-#--------------------------------------------------------------------------------
 # Install the Qt Libraries on NON Apple Platforms
 #--------------------------------------------------------------------------------
 IF (NOT APPLE)
@@ -130,11 +119,7 @@ IF (APPLE)
 	  install(SCRIPT "${OSX_MAKE_STANDALONE_BUNDLE_CMAKE_SCRIPT}")
   endfunction(MakeOSXBundleApp)
 
-  IF(CMAKE_BUILD_TYPE MATCHES "Debug")
-      MakeOSXBundleApp( "atvusb-creator${EXE_DEBUG_EXTENSION}" ${PROJECT_BINARY_DIR})
-  ELSE (CMAKE_BUILD_TYPE MATCHES "Debug")
-      MakeOSXBundleApp(atvusb-creator ${PROJECT_BINARY_DIR})
-  ENDIF(CMAKE_BUILD_TYPE MATCHES "Debug")
+  MakeOSXBundleApp(atvusb-creator ${PROJECT_BINARY_DIR})
 ENDIF (APPLE)
 
 IF (WIN32)
