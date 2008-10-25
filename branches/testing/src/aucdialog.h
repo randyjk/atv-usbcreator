@@ -42,6 +42,9 @@ private:
   void connectGui();
   void createPlatformSpecificCreator();
   void status(QString f_message);
+  void enableWidgets(bool f_enable=true);
+  void buildInstaller();
+  QString getSelectedDrive();
   
   //members
   Ui::AucDialog* mp_ui;

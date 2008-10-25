@@ -53,7 +53,7 @@ void AucDialog::selectFile(){
 
 void AucDialog::connectGui(){
   connect(mp_ui->browseButton, SIGNAL(clicked()), this, SLOT(selectFile()));
-  connect(mp_ui->startButton,  SIGNAL(clicked()), this, SLOT(build_installer()));
+  connect(mp_ui->startButton,  SIGNAL(clicked()), this, SLOT(buildInstaller()));
   connect(mp_ui->installerMenu,  SIGNAL(currentIndexChanged(int)), this, SLOT(set_installer_pict()));
   connect(mp_ui->installerMenu,  SIGNAL(currentIndexChanged(int)), this, SLOT(set_installer_options()));
   connect(mp_ui->installMenu_2,  SIGNAL(currentIndexChanged(int)), this, SLOT(update_options2()));
@@ -88,4 +88,52 @@ mp_creator = new AtvUsbCreatorLinux;
 
 void AucDialog::status(QString f_message){
   mp_ui->statusInfoEdit->append(f_message);
+}
+
+void AucDialog::enableWidgets(bool f_enable){
+  mp_ui->startButton->setEnabled(f_enable);
+  mp_ui->browseButton->setEnabled(f_enable);
+  mp_ui->installerMenu->setEnabled(f_enable);
+  mp_ui->installMenu_1->setEnabled(f_enable);
+  mp_ui->installMenu_2->setEnabled(f_enable);
+  mp_ui->installMenu_3->setEnabled(f_enable);
+  mp_ui->installCheckbox->setEnabled(f_enable);
+  mp_ui->deviceCombo->setEnabled(f_enable);
+  mp_ui->deviceRefreshButton->setEnabled(f_enable);
+}
+
+void AucDialog::buildInstaller(){
+  enableWidgets(false);
+  mp_creator->setDrive(getSelectedDrive().toStdString());
+  if (QFile::exists(QString::fromStdString(mp_creator->getcrBootEfiPath()))){
+    //if boot.efi exits just use it
+    //TODO: self.live_thread.start()
+  } else {
+    if (! mp_creator->getcrDMGPath().empty()){
+      //# If the user has selected an DMG, use it.
+      //TODO: self.live_thread.start()
+    } else {
+      //If no selected DMG, download one.
+    /*
+          self.downloader = ReleaseDownloader(
+                                              self.live,
+                                              self.atv_dmg_url,
+                                              progress=self.download_progress,
+                                              proxies=self.live.get_proxies())
+          self.connect(self.downloader,
+                       QtCore.SIGNAL("dlcomplete(PyQt_PyObject)"),
+                       self.download_complete)
+          self.connect(self.downloader,
+                       QtCore.SIGNAL("status(PyQt_PyObject)"),
+                       self.status)
+          self.downloader.start()
+          */
+    }
+  }
+}
+
+QString AucDialog::getSelectedDrive(){
+  //TODO: fix this when we know what needs to be done here
+  return mp_ui->deviceCombo->currentText();
+  //.split()[0];
 }

@@ -36,10 +36,16 @@ INCLUDE_DIRECTORIES (
 #--------------------------------------------------------------------------------
 #gather source
 SET(atvusb-creator_SRCS 
-	src/main.cpp src/aucdialog.h 
+	src/main.cpp 
+	src/aucdialog.h 
 	src/aucdialog.cpp 
 	src/atvusbcreatorbase.h 
-	src/atvusbcreatorbase.cpp)
+	src/atvusbcreatorbase.cpp
+	src/aucthread.h 
+	src/aucthread.cpp 
+	src/aucprogressthread.h 
+	src/aucprogressthread.cpp 
+	)
 
 #--------------------------------------------------------------------------------
 #add platform specific sources
@@ -77,7 +83,11 @@ QT4_WRAP_UI(atvusb-creator_UIS_H ${atvusb-creator_UIS})
 
 #--------------------------------------------------------------------------------
 #moc the headers
-SET(atvusb-creator_MOC_HDRS src/aucdialog.h)	
+SET(atvusb-creator_MOC_HDRS 
+	src/aucdialog.h
+	src/aucthread.h 
+	src/aucprogressthread.h 
+	)	
 QT4_WRAP_CPP(atvusb-creator_MOC_SRCS ${atvusb-creator_MOC_HDRS})
 
 #--------------------------------------------------------------------------------

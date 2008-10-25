@@ -38,14 +38,20 @@ class AtvUsbCreatorBase
 
 public:
   void setDMGPath(const std::string& fcr_path);
-  void setBootEfiPath(const std::string& fcr_path);
+  const std::string& getcrDMGPath() const;
   
+  void setBootEfiPath(const std::string& fcr_path);
+  const std::string& getcrBootEfiPath() const;
+  
+  void setDrive(const std::string& fcr_path);
+    
   //get access to logger functionality
   Logger& logger();
   
 private:
   std::string m_dmg_path;
   std::string m_bootefi_path;
+  std::string m_drive;
   Logger m_logger;
 };
 #endif //ATVUSBCREATORBASE_H
