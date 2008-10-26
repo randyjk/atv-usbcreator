@@ -22,8 +22,8 @@
 #define AUCRELEASEDOWNLOADER_H
 
 #include <QtCore/QThread>
-class AucProgressThread;
 class AtvUsbCreatorBase;
+class AucDownloadProgress;
 
 class AucReleaseDownloader : public QThread
 {
@@ -31,7 +31,7 @@ class AucReleaseDownloader : public QThread
   
 public:
 	//TODO, proxies?
-	AucReleaseDownloader(AtvUsbCreatorBase* fp_creator, QString f_url, AucProgressThread* f_process /*, proxies?!*/);
+	AucReleaseDownloader(AtvUsbCreatorBase* fp_creator, QString f_url, AucDownloadProgress* fp_process /*, proxies?!*/);
 	~AucReleaseDownloader();
   
   void run();

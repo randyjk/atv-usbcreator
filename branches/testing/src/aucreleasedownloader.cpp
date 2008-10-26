@@ -3,7 +3,9 @@
 #include <iostream>
 #include <QtCore/QFile>
 
-AucReleaseDownloader::AucReleaseDownloader(AtvUsbCreatorBase* fp_creator, QString f_url, AucProgressThread* f_process /*, proxies?!*/):
+#include "aucdownloadprogress.h"
+
+AucReleaseDownloader::AucReleaseDownloader(AtvUsbCreatorBase* fp_creator, QString f_url, AucDownloadProgress* fp_process /*, proxies?!*/):
   m_url(f_url){
 }
 

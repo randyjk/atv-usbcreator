@@ -122,8 +122,7 @@ void AucDialog::buildInstaller(){
       assert(0); //TODO
       //If no selected DMG, download one.
       //TODO proxies
-      
-      //mp_release_downloader = new AucReleaseDownloader(mp_creator, getAtvDmgUrl(), m_download_progress);
+      mp_release_downloader = new AucReleaseDownloader(mp_creator, getAtvDmgUrl(), &m_download_progress);
     /*
           self.downloader = ReleaseDownloader(
                                               self.live,
