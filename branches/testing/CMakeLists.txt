@@ -37,6 +37,8 @@ INCLUDE_DIRECTORIES (
 #gather source
 SET(atvusb-creator_SRCS 
 	src/main.cpp 
+	src/lists.h 
+	src/lists.cpp 
 	src/aucdialog.h 
 	src/aucdialog.cpp 
 	src/atvusbcreatorbase.h 
