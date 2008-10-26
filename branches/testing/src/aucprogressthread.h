@@ -30,7 +30,7 @@ class AucProgressThread : public QThread
   Q_OBJECT;
   
 public:
-	AucProgressThread(QObject* fp_parent);
+	AucProgressThread(QObject* fp_parent = 0);
   ~AucProgressThread();
   
   void setData(int f_size, QString f_drive, int f_freebytes);

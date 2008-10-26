@@ -32,7 +32,7 @@ class AucThread : public QThread
 {
   Q_OBJECT;
 public:
-  AucThread(AtvUsbCreatorBase* fp_creator, AucProgressThread* fp_progress, QObject* fp_parent);
+  AucThread(AtvUsbCreatorBase* fp_creator, AucProgressThread* fp_progress, QObject* fp_parent = 0);
   ~AucThread();
 
   void setMaxProgress(int f_max){

@@ -21,9 +21,13 @@
 #endif
 #endif
 
-AucDialog::AucDialog(): QDialog(), mp_ui(new Ui::AucDialog), mp_creator(0){
+AucDialog::AucDialog(): QDialog(), mp_ui(new Ui::AucDialog), 
+  mp_creator(createPlatformSpecificCreator()), 
+  m_progress_thread(), 
+  m_thread(mp_creator, &m_progress_thread, this)
+{
   mp_ui->setupUi(this);
-  createPlatformSpecificCreator();
+  
   connectGui();
 }
 
@@ -73,15 +77,15 @@ void AucDialog::connectGui(){
   */
 }
 
-void AucDialog::createPlatformSpecificCreator(){
+AtvUsbCreatorBase* AucDialog::createPlatformSpecificCreator(){
 //probably move this include hassle into an atvusbcreatorfactory.h
 #ifdef WIN32
-mp_creator = new AtvUsbCreatorWin32;
+  return new AtvUsbCreatorWin32;
 #else
 #ifdef __APPLE__
-mp_creator = new AtvUsbCreatorOSX;
+  return new AtvUsbCreatorOSX;
 #else
-mp_creator = new AtvUsbCreatorLinux;
+  return new AtvUsbCreatorLinux;
 #endif
 #endif  
 }

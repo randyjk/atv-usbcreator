@@ -23,6 +23,8 @@
 #define AUCDIALOG_H
 
 #include <QtGui/QDialog>
+#include "aucthread.h"
+#include "aucprogressthread.h"
 
 //forwards
 namespace Ui{ struct AucDialog;};
@@ -40,7 +42,7 @@ private slots:
 private:
   //private helpers
   void connectGui();
-  void createPlatformSpecificCreator();
+  static AtvUsbCreatorBase* createPlatformSpecificCreator();
   void status(QString f_message);
   void enableWidgets(bool f_enable=true);
   void buildInstaller();
@@ -49,6 +51,8 @@ private:
   //members
   Ui::AucDialog* mp_ui;
   AtvUsbCreatorBase* mp_creator;
+  AucProgressThread m_progress_thread;
+  AucThread m_thread;
 };
 
 #endif
