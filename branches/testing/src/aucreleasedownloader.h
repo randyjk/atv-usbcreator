@@ -37,9 +37,9 @@ public:
   void run();
   
 signals:
-  void downloadComplete();
-  
+  void downloadComplete(QString);
+  void status(QString);
 private:
-
+  QString m_url;
 };
 #endif //AUCRELEASEDOWNLOADER_H
