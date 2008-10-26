@@ -5,7 +5,7 @@
 
 //include our generated ui_h
 #include "ui_atvusb.h"
-
+//
 #include "aucDialog.h"
 #include "aucreleasedownloader.h"
 
@@ -32,7 +32,15 @@ aucDialog::aucDialog(): QDialog(), mp_ui(new Ui::aucDialog),
 {
   mp_ui->setupUi(this);
   
+  set_installers();
+  set_installer_options();
+  populate_devices();
+
   connect_slots();
+
+  // plugin name can get long so let the view size expand
+  //QAbstractItemView *view = mp_ui->installMenu_3->view();
+  //view->setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Preferred);
 }
 
 //---------------------------------------------------------------------- 
