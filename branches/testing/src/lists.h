@@ -30,7 +30,7 @@ typedef struct _HFS_INFO {
   int     eficnt;
 } HFS_INFO;
 
-typedef struc _INSTALLERS {
+typedef struct _INSTALLERS {
   char    *name;
   char    *pict;
   char    *url;
@@ -50,13 +50,13 @@ typedef struct _RESTORE {
   char    *name;
 } RESTORE;
 
-typedef struc _PATCHSTICKS {
+typedef struct _PATCHSTICKS {
   char    *name;
   bool    enable;
   char    *depends;
 } PATCHSTICKS;
 
-typedef struc _PACKAGES {
+typedef struct _PACKAGES {
   char    *name;
   bool    enable;
   char    *depends;
@@ -66,6 +66,14 @@ typedef struc _PACKAGES {
   char    *pkgname;
   char    *loader;
 } PACKAGES;
+
+typedef struct _LINUX_VIDEO {
+  char    *name;
+} LINUX_VIDEO;
+
+typedef struct _LINUX_IR {
+  char    *name;
+} LINUX_IR;
 
 #endif
 

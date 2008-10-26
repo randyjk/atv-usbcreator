@@ -48,6 +48,425 @@ HFS_INFO hfs_info = {
     298800,
 };
 
+INSTALLERS installers[8] = {
+    {
+        "ATV-Bootloader",
+        "atv-bootloader.png",
+        "http://atv-bootloader.googlecode.com",
+        "0000000000000000000000000000000000000000",
+        true,
+        true,
+        "None",
+        "None",
+        "None",
+    },
+    {
+        "ATV-Patchstick",
+        "atv-patchstick.png",
+        "http://atvusb-creator.googlecode.com",
+        "0000000000000000000000000000000000000000",
+        true,
+        false,
+        "None",
+        "patchsticks",
+        "packages",
+    },
+    {
+        "ATV Factory Restore",
+        "restore.png",
+        "http://atvusb-creator.googlecode.com",
+        "0000000000000000000000000000000000000000",
+        false,
+        false,
+        "restore",
+        "None",
+        "None",
+    },
+    {
+        "USB - XBMC for Linux",
+        "xbmc.png",
+        "http://atvusb-creator.googlecode.com",
+        "0000000000000000000000000000000000000000",
+        false,
+        false,
+        "linux_video",
+        "linux_ir",
+        "None",
+    },
+    {
+        "USB - Boxee for Linux",
+        "boxee.png",
+        "http://www.boxee.org",
+        "0000000000000000000000000000000000000000",
+        false,
+        false,
+        "linux_video",
+        "linux_ir",
+        "None",
+    },
+    {
+        "USB - Elisa for Linux",
+        "elisa.png",
+        "http://elisa.fluendo.com",
+        "0000000000000000000000000000000000000000",
+        false,
+        false,
+        "linux_video",
+        "linux_ir",
+        "None",
+    },
+    {
+        "USB - Mythbuntu",
+        "mythbuntu.png",
+        "http://atvusb-creator.googlecode.com",
+        "0000000000000000000000000000000000000000",
+        false,
+        false,
+        "linux_video",
+        "linux_ir",
+        "None",
+    },
+    {
+        "USB - Knoppmyth",
+        "knoppmyth.png",
+        "http://atvusb-creator.googlecode.com",
+        "0000000000000000000000000000000000000000",
+        false,
+        false,
+        "linux_video",
+        "linux_ir",
+        "None",
+    }
+};
+
+BACKUP backup[2] = {
+    {
+        "Backup Recovery Partition",
+    },
+    {
+        "Skip Recovery Backup",
+    },
+};
+
+RESTORE restore[2] = {
+    {
+        "Restore Recovery Partition",
+    },
+    {
+        "Rebuild Disk and Restore",
+    },
+};
+
+PATCHSTICKS patchsticks[6] = {
+    {
+        "AppleTV version 1.0",
+        false,
+        "atv-1.0",
+    },
+    {
+        "AppleTV version 1.1",
+        false,
+        "atv-1.1",
+    },
+    {
+        "AppleTV version 2.0",
+        false,
+        "atv-2.0",
+    },
+    {
+        "AppleTV version 2.1",
+        false,
+        "atv-2.1",
+    },
+    {
+        "AppleTV version 2.2",
+        true,
+        "atv-2.2",
+    },
+    {
+        "custom defined list",
+        false,
+        "",
+    },
+};
 
 
+PACKAGES packages[21] = {
+    {
+        "ssh tools",
+        true,
+        "atv-1.0, atv-1.1, atv-2.0, atv-2.1",
+        true,
+        "http://www.atvusb-creator.com",
+        "package",
+        "dropbear",
+        "install.sh",
+    },
+    {
+        "bin utils",
+        true,
+        "atv-1.0, atv-1.1, atv-2.0, atv-2.1",
+        true,
+        "http://www.atvusb-creator.com",
+        "package",
+        "binutils",
+        "install.sh",
+    },
+    {
+        "ATVFiles",
+        false,
+        "atv-1.0, atv-1.1, atv-2.0, atv-2.1",
+        false,
+        "http://ericiii.net/sa/appletv/ATVFiles-1.1.0.run",
+        "plugin",
+        "ATVFiles",
+        "sudo sh ATVFiles-1.0.1.run",
+    },
+    {
+        "ATVLoader",
+        false,
+        "atv-1.0, atv-1.1",
+        false,
+        "http://alanquatermain.net/projects/ATVLoader.zip",
+        "plugin",
+        "ATVLoader",
+        "sudo installer -pkg ATVLoader.pkg -target /",
+    },
+    {
+        "ATVTorrents",
+        false,
+        "atv-1.0, atv-1.1, atv-2.0, atv-2.1",
+        false,
+        "http://awkwardtorrents.googlecode.com/files/ATVrtorrent.frappliance.1.0.2.zip",
+        "plugin",
+        "ATVTorrents",
+        "install.sh",
+    },
+    {
+        "Couch Surfer",
+        false,
+        "atv-1.1, atv-2.0, atv-2.1",
+        false,
+        "http://brandon-holland.com/downloads/couchsurfer/couchsurfer-0.3-2.0-installer.zip",
+        "plugin",
+        "CouchSurfer",
+        "install.sh",
+    },
+    {
+        "EyeTV",
+        false,
+        "atv-2.0, atv-2.1",
+        false,
+        "/Applications/EyeTV.app)",
+        "application",
+        "EyeTV",
+        "install.sh",
+    },
+    {
+        "Home MediaCloud",
+        false,
+        "atv-2.0",
+        false,
+        "http://users.pandora.be/bruno.keymolen/HomeMediaCloud_ATV_Take2.zip",
+        "plugin",
+        "MediaCloud",
+        "install.sh",
+        
+    },
+    {
+        "iScripts",
+        false,
+        "atv-2.0, atv-2.1",
+        false,
+        "http://iscripts.googlecode.com/files/Scripts-1.2.2.tar.gz",
+        "plugin",
+        "iScripts",
+        "install.sh",
+    },
+    {
+        "Jamen",
+        false,
+        "atv-2.0, atv-2.1",
+        false,
+        "http://www.atvmod.com",
+        "plugin",
+        "Jamen",
+        "install.sh",
+    },
+    {
+        "rTorrent",
+        false,
+        "atv-2.0, atv-2.1",
+        false,
+        "http://rtorrent-appletv.googlecode.com/files/rtorrent-0.7.9-osx.tar.bz2",
+        "plugin",
+        "rTorrent",
+        "install.sh",
+    },
+    {
+        "Sapphire",
+        false,
+        "atv-2.0, atv-2.1",
+        false,
+        "http://appletv.nanopi.net/Files/Sapphire_1.0b6.1.zip",
+        "plugin",
+        "Sapphire",
+        "install.sh",
+    },
+    {
+        "Skype",
+        false,
+        "atv-1.1, ssh, vnc, watchdog-disable, kextload",
+        false,
+        "http://brandon-holland.com/downloads/skypeplugin/skypeplugin-0.1-bin.tar.gz",
+        "plugin",
+        "Skype",
+        "install.sh",
+    },
+    {
+        "NitoTV",
+        false,
+        "atv-1.0, atv-1.1, atv-2.0, atv-2.1",
+        false,
+        "http://nitosoft.com/nitoTVInstaller.zip",
+        "plugin",
+        "NitoTV",
+        "install.sh",
+    },
+    {
+        "XBMC for Mac",
+        true,
+        "atv-2.0, atv-2.1",
+        true,
+        "http://downloads.sourceforge.net/xbmc/XBMC_for_Mac-Atlantis-Beta_1.dmg",
+        "plugin",
+        "XBMCLauncher",
+        "install.sh",
+    },
+    {
+        "Boxee for Mac",
+        true,
+        "atv-2.0, atv-2.1",
+        true,
+        "http://apt.boxee.tv/boxee-tiger3.dmg",
+        "plugin",
+        "BoxeeLauncher",
+        "install.sh",
+    },
+    {
+        "USB Mass Storage",
+        false,
+        "atv-1.0, atv-1.1, atv-2.0, atv-2.1",
+        false,
+        "http://www.atvmod.com",
+        "package",
+        "USBMassStorage",
+        "install.sh",
+    },
+    {
+        "Apple File Services",
+        false,
+        "atv-1.0, atv-1.1",
+        false,
+        "http://www.atvmod.com",
+        "package",
+        "AppleFileServices",
+        "install.sh",
+    },
+    {
+        "SMB/CILS File Services",
+        false,
+        "atv-1.0, atv-1.1",
+        false,
+        "http://www.atvmod.com",
+        "package",
+        "SMBFileServices",
+        "install.sh",
+    },
+    {
+        "Composite NTSC video",
+        false,
+        "atv-1.0, atv-1.1, atv-2.0, atv-2.1",
+        false,
+        "http://www.atvmod.com",
+        "special",
+        "CompositeNTSC",
+        "install.sh",
+    },
+    {
+        "Composite PAL video",
+        false,
+        "atv-1.0, atv-1.1, atv-2.0, atv-2.1",
+        false,
+        "http://www.atvmod.com",
+        "special",
+        "CompositePAL",
+        "install.sh",
+    }
+};
 
+LINUX_VIDEO linux_video[18] = {
+    {
+        "HDMI - HD1080p",
+    },
+    {
+        "HDMI - HD1080i",
+    },
+    {
+        "HDMI - HD720p",
+    },
+    {
+        "HDMI - HD576p",
+    },
+    {
+        "HDMI - HD576i",
+    },
+    {
+        "HDMI - HD480p",
+    },
+    {
+        "HDMI - HD480i",
+    },
+    {
+        "Component - HD1080p",
+    },
+    {
+        "Component - HD1080i",
+    },
+    {
+        "Component - HD720p",
+    },
+    {
+        "Component - HD576p",
+    },
+    {
+        "Component - HD576i",
+    },
+    {
+        "Component - HD480p",
+    },
+    {
+        "Component - HD480i",
+    },
+    {
+        "Composite - NTSC",
+    },
+    {
+        "Composite - PAL",
+    },
+    {
+        "S-Video - NTSC",
+    },
+    {
+        "S-Video - PAL",
+    },
+};
+
+LINUX_IR linux_ir[2] = {
+    {
+        "AppleTV IR",
+    },
+    {
+        "MS MCE USB IR",
+    },
+};
