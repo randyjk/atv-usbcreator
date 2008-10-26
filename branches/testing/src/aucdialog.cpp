@@ -319,6 +319,7 @@ void aucDialog::build_installer(void) {
       //If the user has selected an DMG, use it.
       m_thread.start();
     } else {
+      assert(0);
       //If no selected DMG, download one.
       //TODO get destination folder from mp_creator
       m_release_downloader.download("/Users/diederich/Desktop/", get_appletv_dmg_url());
