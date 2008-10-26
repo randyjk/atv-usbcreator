@@ -111,12 +111,13 @@ void AucDialog::buildInstaller(){
   mp_creator->setDrive(getSelectedDrive().toStdString());
   if (QFile::exists(QString::fromStdString(mp_creator->getcrBootEfiPath()))){
     //if boot.efi exits just use it
-    //TODO: self.live_thread.start()
+    m_thread.start();
   } else {
     if (! mp_creator->getcrDMGPath().empty()){
-      //# If the user has selected an DMG, use it.
-      //TODO: self.live_thread.start()
+      //If the user has selected an DMG, use it.
+      m_thread.start();
     } else {
+      assert(0); //TODO
       //If no selected DMG, download one.
     /*
           self.downloader = ReleaseDownloader(

@@ -12,6 +12,7 @@ AucThread::~AucThread(){
 }
 
 void AucThread::run(){
+  assert(0);
 /*
   now = datetime.now()
   try:

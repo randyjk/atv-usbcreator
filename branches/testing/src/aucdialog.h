@@ -38,14 +38,15 @@ public:
   
 private slots:
   void selectFile();
-  
+  void buildInstaller();
+    
 private:
   //private helpers
   void connectGui();
   static AtvUsbCreatorBase* createPlatformSpecificCreator();
   void status(QString f_message);
   void enableWidgets(bool f_enable=true);
-  void buildInstaller();
+
   QString getSelectedDrive();
   
   //members
