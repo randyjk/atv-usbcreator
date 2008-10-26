@@ -129,16 +129,33 @@ void AucDialog::buildInstaller(){
                                               self.atv_dmg_url,
                                               progress=self.download_progress,
                                               proxies=self.live.get_proxies())
-          self.connect(self.downloader,
-                       QtCore.SIGNAL("dlcomplete(PyQt_PyObject)"),
-                       self.download_complete)
-          self.connect(self.downloader,
-                       QtCore.SIGNAL("status(PyQt_PyObject)"),
-                       self.status)
-          self.downloader.start()
-          */
+     */
+      connect(mp_release_downloader, SIGNAL(dlcomplete(QString)), this, SLOT(downloadComplete(QString)));
+      connect(mp_release_downloader, SIGNAL(status(QString)), this, SLOT(status(QString)));
+      mp_release_downloader->start();
     }
   }
+}
+
+void AucDialog::downloadComplete(QString f_path){
+  /* Called by our ReleaseDownloader thread upon completion.
+
+  Upon success, the thread passes in the filename of the downloaded
+  release.  If the 'dmg' argument is not an existing file, then
+  it is assumed that the download failed and 'dmg' should contain
+   the error message.
+   */
+  if (QFile::exists(f_path)){
+    status("Download complete!");
+    mp_creator->setDMGPath(f_path.toStdString());
+    m_thread.start();
+  } else {
+    status("Download failed: " + f_path);
+    status("You can try again to resume your download");
+    enableWidgets(true);
+  }
+  delete mp_release_downloader;
+  mp_release_downloader = 0;
 }
 
 QString AucDialog::getSelectedDrive(){

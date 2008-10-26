@@ -38,15 +38,19 @@ public:
   AucDialog();
   ~AucDialog();
   
+public slots:
+  void status(QString f_message);
+  
 private slots:
   void selectFile();
   void buildInstaller();
-    
+  void downloadComplete(QString);
+
 private:
   //private helpers
   void connectGui();
   static AtvUsbCreatorBase* createPlatformSpecificCreator();
-  void status(QString f_message);
+
   void enableWidgets(bool f_enable=true);
 
   QString getSelectedDrive();
