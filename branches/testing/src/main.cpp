@@ -1,11 +1,11 @@
 #include <iostream>
 #include <QtGui/QApplication>
 
-#include "aucdialog.h"
+#include "aucDialog.h"
 int main(int argc, char** argv){
 	QApplication application( argc, argv );       
 
-  AucDialog dialog;
+  aucDialog dialog;
   dialog.show();
 	return application.exec();
 }

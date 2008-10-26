@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>AucDialog</class>
- <widget class="QDialog" name="AucDialog" >
+ <class>aucDialog</class>
+ <widget class="QDialog" name="aucDialog" >
   <property name="windowModality" >
    <enum>Qt::NonModal</enum>
   </property>

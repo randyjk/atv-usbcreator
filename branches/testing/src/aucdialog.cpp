@@ -6,7 +6,7 @@
 //include our generated ui_h
 #include "ui_atvusb.h"
 
-#include "aucdialog.h"
+#include "aucDialog.h"
 #include "aucreleasedownloader.h"
 
 //probably move this include hassle into an atvusbcreatorfactory.h
@@ -24,24 +24,25 @@
 #endif
 
 //---------------------------------------------------------------------- 
-AucDialog::AucDialog(): QDialog(), mp_ui(new Ui::AucDialog), 
+//---------------------------------------------------------------------- 
+aucDialog::aucDialog(): QDialog(), mp_ui(new Ui::aucDialog), 
   mp_creator(createPlatformSpecificCreator()), 
   m_progress_thread(), 
   m_thread(mp_creator, &m_progress_thread, this)
 {
   mp_ui->setupUi(this);
   
-  connectGui();
+  connect_slots();
 }
 
 //---------------------------------------------------------------------- 
-AucDialog::~AucDialog() {
+aucDialog::~aucDialog() {
   delete mp_ui;  
   delete mp_creator;
 }
 
 //---------------------------------------------------------------------- 
-void AucDialog::selectFile() {
+void aucDialog::selectFile(void) {
   QString dmgfile = QFileDialog::getOpenFileName(this,"Select AppleTV Update DMG", ".", "DMG (*.dmg)" );
   if( dmgfile.size() ) {
     try {
@@ -61,7 +62,7 @@ void AucDialog::selectFile() {
 }
 
 //---------------------------------------------------------------------- 
-void AucDialog::connectGui() {
+void aucDialog::connect_slots(void) {
   connect(mp_ui->browseButton, SIGNAL(clicked()), this, SLOT(selectFile()));
   connect(mp_ui->startButton,  SIGNAL(clicked()), this, SLOT(buildInstaller()));
   connect(mp_ui->installerMenu,  SIGNAL(currentIndexChanged(int)), this, SLOT(set_installer_pict()));
@@ -82,7 +83,162 @@ void AucDialog::connectGui() {
 }
 
 //---------------------------------------------------------------------- 
-AtvUsbCreatorBase* AucDialog::createPlatformSpecificCreator() {
+void aucDialog::set_installers(void) {
+/*
+        for info in self.live.installers:
+            self.installerMenu.addItem(info['name'])
+            #self.installerMenu.item[self.installerMenu.currentIndex].setSelectable(False)
+        self.installerMenu.setCurrentIndex(1);
+*/
+}
+
+//---------------------------------------------------------------------- 
+void aucDialog::set_installer_pict(void) {
+/*
+        # change the header image to match installer
+        installer = self.live.installers[self.installerMenu.currentIndex()]
+        self.headerLabel.setPixmap(QtGui.QPixmap( installer['pict'] ))
+*/
+}
+
+//---------------------------------------------------------------------- 
+void aucDialog::set_installer_options(void) {
+/*
+        for installer in self.live.installers:
+            installer['install'] = False;
+
+        # populate first options menu
+        installer = self.live.installers[self.installerMenu.currentIndex()]
+        installer['install'] = True;
+        
+        #
+        self.installMenu_1.clear()
+        self.installMenu_1.setEnabled(True)
+        option1 = installer['option1']
+        if option1 == 'backup':
+            for info in backup:
+                self.installMenu_1.addItem(info['name'])
+        elif option1 == 'restore':
+            for info in restore:
+                self.installMenu_1.addItem(info['name'])
+        else:
+            self.installMenu_1.setEnabled(False)
+        # populate second options menu
+        self.installMenu_2.clear()
+        self.installMenu_2.setEnabled(True)
+        option2 = installer['option2']
+        if option2 == 'patchsticks':
+            self.live.load_patchsticks();
+            for info in self.live.patchsticks:
+                self.installMenu_2.addItem(info['name'])
+        elif option2 == 'linux_video':
+            for info in linux_video:
+                self.installMenu_2.addItem(info['name'])
+        elif option2 == 'linux_ir':
+            for info in linux_ir:
+                self.installMenu_2.addItem(info['name'])
+        else:
+            self.installMenu_2.setEnabled(False)
+        #
+        # third options menu is always setup depending on the
+        # contents of the second options menu
+        self.update_options2();
+*/
+}
+
+//---------------------------------------------------------------------- 
+void aucDialog::update_options2(void) {
+/*
+        # second options menu changed, update third options menu
+        installer = self.live.installers[self.installerMenu.currentIndex()]
+        #
+        self.installMenu_3.clear()
+        # watch the enable state, we start disabled here and
+        # only enable it there are items in the menu
+        self.installMenu_3.setEnabled(False)
+        self.installCheckbox.setEnabled(False)
+        if installer['option2'] == 'patchsticks':
+            patchstick = self.live.patchsticks[self.installMenu_2.currentIndex()]
+            if 'atv-' in patchstick['depends']:
+                self.live.load_packages(patchstick);
+                for package in self.live.packages:
+                    if package['install']:
+                        icon = QtGui.QIcon(":/install.png")
+                    else:
+                        icon = QtGui.QIcon(":/uninstall.png")
+                    self.installMenu_3.addItem(icon, package['name'])
+                self.installMenu_3.setCurrentIndex(0);
+                #
+                package = self.live.packages[self.installMenu_3.currentIndex()]
+                if package['install']:
+                    self.installCheckbox.setCheckState(QtCore.Qt.Checked)
+                else:
+                    self.installCheckbox.setCheckState(QtCore.Qt.Unchecked)
+        if self.installMenu_3.count() > 0:
+            self.installMenu_3.setEnabled(True)
+            self.installCheckbox.setEnabled(True)
+*/
+}
+
+//---------------------------------------------------------------------- 
+void aucDialog::update_options3(void) {
+/*
+        # third options menu changed, update checkbox state 
+        package = self.live.packages[self.installMenu_3.currentIndex()]
+        if package['install']:
+            self.installCheckbox.setCheckState(QtCore.Qt.Checked)
+        else:
+            self.installCheckbox.setCheckState(QtCore.Qt.Unchecked)
+*/
+}
+
+//---------------------------------------------------------------------- 
+void aucDialog::update_options3_fromcheckbox(void) {
+/*
+        # checkbox state changed, update third options menu icon 
+        package = self.live.packages[self.installMenu_3.currentIndex()]
+        # special check for only one composite video selection enabled.
+        # this touches package so remember to reload it at end
+        if 'Composite' in package['name']:
+            # if the selection is a composite video entry, turn off
+            # previous composite video entry
+            index = 0
+            for package in self.live.packages:
+                if 'Composite' in package['name']:
+                    package['install'] = False
+                    icon = QtGui.QIcon(":/uninstall.png")
+                    self.installMenu_3.setItemIcon(index, icon);
+                index = index + 1
+            package = self.live.packages[self.installMenu_3.currentIndex()]
+        # now we can do the install toggle
+        if self.installCheckbox.checkState() == QtCore.Qt.Checked:
+            package['install'] = True
+            icon = QtGui.QIcon(":/install.png")
+        else:
+            package['install'] = False
+            icon = QtGui.QIcon(":/uninstall.png")
+        self.installMenu_3.setItemIcon(self.installMenu_3.currentIndex(), icon);
+*/
+}
+
+//---------------------------------------------------------------------- 
+void aucDialog::populate_devices(void) {
+/*
+        self.deviceCombo.clear()
+        self.statusInfoEdit.clear()
+        try:
+            self.live.detect_removable_drives()
+            for device, info in self.live.drives.items():
+                self.deviceCombo.addItem(device)
+            self.startButton.setEnabled(True)
+        except LiveUSBError, e:
+            self.statusInfoEdit.setPlainText(str(e))
+            self.startButton.setEnabled(False)
+*/
+}
+
+//---------------------------------------------------------------------- 
+AtvUsbCreatorBase* aucDialog::createPlatformSpecificCreator(void) {
 //probably move this include hassle into an atvusbcreatorfactory.h
 #ifdef WIN32
   return new AtvUsbCreatorWin32;
@@ -96,12 +252,12 @@ AtvUsbCreatorBase* AucDialog::createPlatformSpecificCreator() {
 }
 
 //---------------------------------------------------------------------- 
-void AucDialog::status(QString f_message) {
+void aucDialog::status(QString f_message) {
   mp_ui->statusInfoEdit->append(f_message);
 }
 
 //---------------------------------------------------------------------- 
-void AucDialog::enableWidgets(bool f_enable) {
+void aucDialog::enableWidgets(bool f_enable) {
   mp_ui->startButton->setEnabled(f_enable);
   mp_ui->browseButton->setEnabled(f_enable);
   mp_ui->installerMenu->setEnabled(f_enable);
@@ -114,9 +270,11 @@ void AucDialog::enableWidgets(bool f_enable) {
 }
 
 //---------------------------------------------------------------------- 
-void AucDialog::buildInstaller() {
+void aucDialog::buildInstaller(void) {
   enableWidgets(false);
+  //
   mp_creator->setDrive(getSelectedDrive().toStdString());
+  //
   if (QFile::exists(QString::fromStdString(mp_creator->getcrBootEFIPath()))){
     //if boot.efi exits just use it
     m_thread.start();
@@ -144,7 +302,7 @@ void AucDialog::buildInstaller() {
 }
 
 //---------------------------------------------------------------------- 
-void AucDialog::downloadComplete(QString f_path) {
+void aucDialog::downloadComplete(QString f_path) {
   /* Called by our ReleaseDownloader thread upon completion.
 
   Upon success, the thread passes in the filename of the downloaded
@@ -166,24 +324,24 @@ void AucDialog::downloadComplete(QString f_path) {
 }
 
 //---------------------------------------------------------------------- 
-void AucDialog::progress(int f_val) {
+void aucDialog::progress(int f_val) {
   mp_ui->progressBar->setValue(f_val);
 }
 
 //---------------------------------------------------------------------- 
-void AucDialog::maxprogress(int f_val) {
+void aucDialog::maxprogress(int f_val) {
   mp_ui->progressBar->setMaximum(f_val);
 }
 
 //---------------------------------------------------------------------- 
-QString AucDialog::getSelectedDrive() {
+QString aucDialog::getSelectedDrive(void) {
   //TODO: fix this when we know what needs to be done here
   return mp_ui->deviceCombo->currentText();
   //.split()[0];
 }
 
 //---------------------------------------------------------------------- 
-QString AucDialog::getAtvDmgUrl() {
+QString aucDialog::getAtvDmgUrl(void) {
 
   assert(0);
   /*
