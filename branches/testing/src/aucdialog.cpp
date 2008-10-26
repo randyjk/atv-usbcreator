@@ -4,6 +4,8 @@
 
 #include <QtGui/QFileDialog>
 
+#include "aucreleasedownloader.h"
+
 //include our generated ui_h
 #include "ui_atvusb.h"
 
@@ -119,6 +121,9 @@ void AucDialog::buildInstaller(){
     } else {
       assert(0); //TODO
       //If no selected DMG, download one.
+      //TODO proxies
+      
+      //mp_release_downloader = new AucReleaseDownloader(mp_creator, getAtvDmgUrl(), m_download_progress);
     /*
           self.downloader = ReleaseDownloader(
                                               self.live,
@@ -141,4 +146,19 @@ QString AucDialog::getSelectedDrive(){
   //TODO: fix this when we know what needs to be done here
   return mp_ui->deviceCombo->currentText();
   //.split()[0];
+}
+
+QString AucDialog::getAtvDmgUrl(){
+
+  assert(0);
+  /*
+   #import urllib
+   #from xml.dom import minidom
+   #
+   #xml_doc = minidom.parse(urllib.urlopen('http://mesu.apple.com/version.xml'))
+   #self.atv_dmg_url = xml_doc.getElementsByTagName('dict')[1].getElementsByTagName('string')[1].firstChild.data
+   #self.atv_dmg_url = 'http://mesu.apple.com/data/OS/061-4632.2080414.gt5rW/2Z694-5428-3.dmg'
+   self.atv_dmg_url = atv_dmg_info[0]['url']
+   
+  */
 }

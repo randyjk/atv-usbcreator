@@ -25,10 +25,12 @@
 #include <QtGui/QDialog>
 #include "aucthread.h"
 #include "aucprogressthread.h"
+#include "aucdownloadprogress.h"
 
 //forwards
 namespace Ui{ struct AucDialog;};
 class AtvUsbCreatorBase;
+class AucReleaseDownloader;
 
 class AucDialog : public QDialog{
   Q_OBJECT;
@@ -48,12 +50,15 @@ private:
   void enableWidgets(bool f_enable=true);
 
   QString getSelectedDrive();
+  QString getAtvDmgUrl();
   
   //members
   Ui::AucDialog* mp_ui;
   AtvUsbCreatorBase* mp_creator;
   AucProgressThread m_progress_thread;
   AucThread m_thread;
+  AucDownloadProgress m_download_progress;
+  AucReleaseDownloader* mp_release_downloader;
 };
 
 #endif

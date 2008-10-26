@@ -45,6 +45,10 @@ SET(atvusb-creator_SRCS
 	src/aucthread.cpp 
 	src/aucprogressthread.h 
 	src/aucprogressthread.cpp 
+	src/aucreleasedownloader.h
+	src/aucreleasedownloader.cpp
+	src/aucdownloadprogress.h
+	src/aucdownloadprogress.cpp
 	)
 
 #--------------------------------------------------------------------------------
@@ -87,6 +91,8 @@ SET(atvusb-creator_MOC_HDRS
 	src/aucdialog.h
 	src/aucthread.h 
 	src/aucprogressthread.h 
+	src/aucreleasedownloader.h
+	src/aucdownloadprogress.h
 	)	
 QT4_WRAP_CPP(atvusb-creator_MOC_SRCS ${atvusb-creator_MOC_HDRS})
 
