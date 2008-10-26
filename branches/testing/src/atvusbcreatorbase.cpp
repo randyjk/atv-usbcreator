@@ -94,7 +94,17 @@ void AtvUsbCreatorBase::load_packages(PATCHSTICK &patchstick) {
     }
   }
 }
-  
+
+//----------------------------------------------------------------------   
+void AtvUsbCreatorBase::detect_removable_drives(){
+  assert(0 && "implement me!");
+}
+
+//---------------------------------------------------------------------- 
+const AtvUsbCreatorBase::tDeviceList& AtvUsbCreatorBase::getcrDevices(){
+  return m_devices;
+}
+
 //---------------------------------------------------------------------- 
 Logger& AtvUsbCreatorBase::logger() {
   return m_logger;

@@ -257,18 +257,21 @@ void aucDialog::update_options3_fromcheckbox(void) {
 
 //---------------------------------------------------------------------- 
 void aucDialog::populate_devices(void) {
-/*
-  self.deviceCombo.clear()
-  self.statusInfoEdit.clear()
-  try:
-    self.live.detect_removable_drives()
-    for device, info in self.live.drives.items():
-      self.deviceCombo.addItem(device)
-    self.startButton.setEnabled(True)
-  except LiveUSBError, e:
-    self.statusInfoEdit.setPlainText(str(e))
-    self.startButton.setEnabled(False)
-*/
+  mp_ui->deviceCombo->clear();
+  mp_ui->statusInfoEdit->clear();
+  try{
+    mp_creator->detect_removable_drives();
+  } catch (AtvUsbCreatorException& e){
+    mp_ui->statusInfoEdit->setText(e.what());
+    mp_ui->startButton->setEnabled(false);
+    return;
+  }
+  const AtvUsbCreatorBase::tDeviceList& devices = mp_creator->getcrDevices();
+  for(AtvUsbCreatorBase::tDeviceList::const_iterator it = devices.begin(); it != devices.end(); ++it){
+    mp_ui->deviceCombo->addItem(QString::fromStdString(*it));
+  }
+  if(!devices.empty())
+    mp_ui->startButton->setEnabled(true);
 }
 
 //---------------------------------------------------------------------- 

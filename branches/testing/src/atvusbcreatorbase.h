@@ -12,7 +12,7 @@
 //
 //   Derived class(es): AtvUsbCreator{Win32,OSX,Linux} 
 //
-//   Exceptions:        
+//   Exceptions:        AtvUsbCreatorException (derived from std::runtime_error)
 //
 //   Description:       Base class for usb-creator functionality, specialized for the platform when needed
 //   
@@ -38,9 +38,14 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 
-#include "Lists.h"
+#include "lists.h"
 
+class AtvUsbCreatorException : public std::runtime_error{
+  AtvUsbCreatorException(const std::string &fcr_message):std::runtime_error(fcr_message){
+  }
+};
 
 //just a dummy for a proper logger
 struct Logger {
@@ -68,6 +73,11 @@ public:
   void load_patchsticks(void);
   void load_packages(PATCHSTICK &patchstick);
   
+  typedef std::vector<std::string> tDeviceList;
+  void detect_removable_drives();
+  const tDeviceList& getcrDevices();
+  
+  
   //get access to logger functionality
   Logger& logger();
   
@@ -83,6 +93,7 @@ private:
   std::string             m_dmg_path;
   std::string             m_bootefi_path;
   std::string             m_drive;
+  tDeviceList             m_devices;
   Logger                  m_logger;
 };
 #endif //ATVUSBCREATORBASE_H
