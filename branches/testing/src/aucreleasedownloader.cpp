@@ -6,8 +6,6 @@
 #include <QtCore/QUrl>
 #include <QtNetwork/QHttp>
 
-#include "aucdownloadprogress.h"
-
 AucReleaseDownloader::AucReleaseDownloader(){
     connect(&m_http, SIGNAL(done(bool)), this, SLOT(done(bool)));
     connect(&m_http, SIGNAL(dataReadProgress(int, int)), this, SLOT(httpProgress(int, int)));
