@@ -22,7 +22,7 @@ ENDIF (WIN32)
 
 #setup qt4
 find_package(Qt4 REQUIRED)
-
+SET(QT_USE_QTNETWORK 1)
 include(${QT_USE_FILE})
 
 #--------------------------------------------------------------------------------
@@ -37,8 +37,6 @@ INCLUDE_DIRECTORIES (
 #gather source
 SET(atvusb-creator_SRCS 
 	src/main.cpp 
-	src/lists.h 
-	src/default_list.h 
 	src/aucdialog.h 
 	src/aucdialog.cpp 
 	src/atvusbcreatorbase.h 
@@ -49,8 +47,8 @@ SET(atvusb-creator_SRCS
 	src/aucprogressthread.cpp 
 	src/aucreleasedownloader.h
 	src/aucreleasedownloader.cpp
-	src/aucdownloadprogress.h
-	src/aucdownloadprogress.cpp
+	src/lists.h
+	src/default_list.h
 	)
 
 #--------------------------------------------------------------------------------
@@ -94,7 +92,6 @@ SET(atvusb-creator_MOC_HDRS
 	src/aucthread.h 
 	src/aucprogressthread.h 
 	src/aucreleasedownloader.h
-	src/aucdownloadprogress.h
 	)	
 QT4_WRAP_CPP(atvusb-creator_MOC_SRCS ${atvusb-creator_MOC_HDRS})
 

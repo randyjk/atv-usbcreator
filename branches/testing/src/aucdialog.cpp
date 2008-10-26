@@ -74,14 +74,17 @@ void aucDialog::connect_slots(void) {
   connect(mp_ui->deviceRefreshButton, SIGNAL(clicked()), this, SLOT(populate_devices()));
   connect(mp_ui->startButton,  SIGNAL(clicked()), this, SLOT(build_installer()));
   connect(&m_thread,  SIGNAL(status(QString)), this, SLOT(status(QString)));
-  connect(&m_thread,  SIGNAL(finished()), this, SLOT(enable_widgets(true)));
-  connect(&m_thread,  SIGNAL(terminated()), this, SLOT(enable_widgets(true)));
+  connect(&m_thread,  SIGNAL(finished()), this, SLOT(enable_widgets()));
+  connect(&m_thread,  SIGNAL(terminated()), this, SLOT(enable_widgets()));
   connect(&m_thread,  SIGNAL(progress(int)), this, SLOT(progress(int)));
   connect(&m_thread,  SIGNAL(maxprogress(int)), this, SLOT(maxprogress(int)));
   connect(&m_progress_thread, SIGNAL(progress(int)), this, SLOT(progress(int)));
   connect(&m_progress_thread, SIGNAL(maxprogress(int)), this, SLOT(maxprogress(int)));
-  connect(&m_download_progress, SIGNAL(progress(int)), this, SLOT(progress(int)));
-  connect(&m_download_progress, SIGNAL(maxprogress(int)), this, SLOT(maxprogress(int)));
+  connect(&m_release_downloader, SIGNAL(progress(int)), this, SLOT(progress(int)));
+  connect(&m_release_downloader, SIGNAL(maxprogress(int)), this, SLOT(maxprogress(int)));
+  connect(&m_release_downloader, SIGNAL(downloadComplete(QString)), this, SLOT(download_complete(QString)));
+  connect(&m_release_downloader, SIGNAL(status(QString)), this, SLOT(status(QString)));
+  
 }
 
 //---------------------------------------------------------------------- 
@@ -298,6 +301,10 @@ void aucDialog::enable_widgets(bool f_enable) {
   mp_ui->deviceRefreshButton->setEnabled(f_enable);
 }
 
+void aucDialog::enable_widgets(){
+  enable_widgets(true);
+}
+
 //---------------------------------------------------------------------- 
 void aucDialog::build_installer(void) {
   enable_widgets(false);
@@ -312,20 +319,9 @@ void aucDialog::build_installer(void) {
       //If the user has selected an DMG, use it.
       m_thread.start();
     } else {
-      assert(0); //TODO
       //If no selected DMG, download one.
-      //TODO proxies
-      mp_release_downloader = new AucReleaseDownloader(mp_creator, get_appletv_dmg_url(), &m_download_progress);
-    /*
-          self.downloader = ReleaseDownloader(
-                                              self.live,
-                                              self.atv_dmg_url,
-                                              progress=self.download_progress,
-                                              proxies=self.live.get_proxies())
-     */
-      connect(mp_release_downloader, SIGNAL(dlcomplete(QString)), this, SLOT(downloadComplete(QString)));
-      connect(mp_release_downloader, SIGNAL(status(QString)), this, SLOT(status(QString)));
-      mp_release_downloader->start();
+      //TODO get destination folder from mp_creator
+      m_release_downloader.download("/Users/diederich/Desktop/", get_appletv_dmg_url());
     }
   }
 }
@@ -341,8 +337,6 @@ void aucDialog::download_complete(QString f_path) {
     status("You can try again to resume your download");
     enable_widgets(true);
   }
-  delete mp_release_downloader;
-  mp_release_downloader = 0;
 }
 
 //---------------------------------------------------------------------- 
@@ -365,5 +359,7 @@ QString aucDialog::get_selected_drive(void) {
 //---------------------------------------------------------------------- 
 QString aucDialog::get_appletv_dmg_url(void) {
   assert(0); //TODO
-  return QString(); //return QString::fromStdString(atv_dmg_info.url);
+  return QString();
+//  return QString("http://atv-xbmc-launcher.googlecode.com/files/XBMCLauncher-0.4-debug.run");
+   //return QString::fromStdString(atv_dmg_info.url);
 }

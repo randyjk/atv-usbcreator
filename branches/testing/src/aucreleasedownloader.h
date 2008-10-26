@@ -15,7 +15,7 @@
 //
 //   Exceptions:        
 //
-//   Description:       formerly known as ReleaseDownloader
+//   Description:       formerly known as ReleaseDownloader, currently handles only http downloads!
 //
 //   Copyright (C) 2008  TeamXBMC
 //   This program is free software; you can redistribute it and/or
@@ -36,25 +36,34 @@
 #ifndef AUCRELEASEDOWNLOADER_H
 #define AUCRELEASEDOWNLOADER_H
 
-#include <QtCore/QThread>
+#include <QtCore/QObject>
+#include <QtCore/QFile>
+#include <QtNetwork/QHttp>
 class AtvUsbCreatorBase;
 class AucDownloadProgress;
 
-class AucReleaseDownloader : public QThread
+class AucReleaseDownloader : public QObject
 {
   Q_OBJECT;
   
 public:
-	//TODO, proxies?
-	AucReleaseDownloader(AtvUsbCreatorBase* fp_creator, QString f_url, AucDownloadProgress* fp_process /*, proxies?!*/);
+	AucReleaseDownloader();
 	~AucReleaseDownloader();
   
-  void run();
+  void download(QString f_destination_folder, QString f_url);
   
 signals:
   void downloadComplete(QString);
   void status(QString);
+  void progress(int);
+  void maxprogress(int);
+
+private slots:
+  void done(bool);
+  void httpProgress(int, int);
+
 private:
-  QString m_url;
+  QHttp m_http;
+  QFile m_destination_file;
 };
 #endif //AUCRELEASEDOWNLOADER_H

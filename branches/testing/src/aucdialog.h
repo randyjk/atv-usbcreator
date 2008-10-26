@@ -38,7 +38,7 @@
 #include <QtGui/QDialog>
 #include "aucthread.h"
 #include "aucprogressthread.h"
-#include "aucdownloadprogress.h"
+#include "aucreleasedownloader.h"
 
 //forwards
 namespace Ui{ struct aucDialog;};
@@ -63,6 +63,8 @@ private slots:
   void update_options3_fromcheckbox(void);
   void populate_devices(void);
   void build_installer(void);
+  void enable_widgets(bool f_enable);
+  void enable_widgets();
   
   /**
    * Called by our ReleaseDownloader thread upon completion.
@@ -80,7 +82,6 @@ private:
   void connect_slots(void);
   
   static AtvUsbCreatorBase* createPlatformSpecificCreator();
-  void enable_widgets(bool f_enable=true);
 
   QString get_selected_drive(void);
   QString get_appletv_dmg_url(void);
@@ -90,8 +91,7 @@ private:
   AtvUsbCreatorBase*    mp_creator;
   AucProgressThread     m_progress_thread;
   AucThread             m_thread;
-  AucDownloadProgress   m_download_progress;
-  AucReleaseDownloader* mp_release_downloader;
+  AucReleaseDownloader m_release_downloader;
 };
 
 #endif
