@@ -66,17 +66,15 @@ void AucDialog::connectGui(){
   connect(mp_ui->installMenu_3,  SIGNAL(currentIndexChanged(int)), this, SLOT(update_options3()));
   connect(mp_ui->installCheckbox,  SIGNAL(stateChanged(int)), this, SLOT(update_options3_fromcheckbox()));
   connect(mp_ui->deviceRefreshButton, SIGNAL(clicked()), this, SLOT(populate_devices()));
-  /*
-  connect(mp_ui->live_thread,  SIGNAL(status(PyQt_PyObject)), this, SLOT(status));
-  connect(mp_ui->live_thread,  SIGNAL(finished()), lambda: this, SLOT(enable_widgets(True)));
-  connect(mp_ui->live_thread,  SIGNAL(terminated()), lambda: this, SLOT(enable_widgets(True)));
-  connect(mp_ui->live_thread,  SIGNAL(progress(int)), this, SLOT(progress));
-  connect(mp_ui->live_thread,  SIGNAL(maxprogress(int)), this, SLOT(maxprogress));
-  connect(mp_ui->progress_thread, SIGNAL(progress(int)), this, SLOT(progress));
-  connect(mp_ui->progress_thread, SIGNAL(maxprogress(int)), this, SLOT(maxprogress));
-  connect(mp_ui->download_progress, SIGNAL(progress(int)), this, SLOT(progress));
-  connect(mp_ui->download_progress, SIGNAL(maxprogress(int)), this, SLOT(maxprogress));
-  */
+  connect(&m_thread,  SIGNAL(status(QString)), this, SLOT(status(QString)));
+  connect(&m_thread,  SIGNAL(finished()), this, SLOT(enable_widgets(true)));
+  connect(&m_thread,  SIGNAL(terminated()), this, SLOT(enable_widgets(true)));
+  connect(&m_thread,  SIGNAL(progress(int)), this, SLOT(progress(int)));
+  connect(&m_thread,  SIGNAL(maxprogress(int)), this, SLOT(maxprogress(int)));
+  connect(&m_progress_thread, SIGNAL(progress(int)), this, SLOT(progress(int)));
+  connect(&m_progress_thread, SIGNAL(maxprogress(int)), this, SLOT(maxprogress(int)));
+  connect(&m_download_progress, SIGNAL(progress(int)), this, SLOT(progress(int)));
+  connect(&m_download_progress, SIGNAL(maxprogress(int)), this, SLOT(maxprogress(int)));
 }
 
 AtvUsbCreatorBase* AucDialog::createPlatformSpecificCreator(){
@@ -156,6 +154,14 @@ void AucDialog::downloadComplete(QString f_path){
   }
   delete mp_release_downloader;
   mp_release_downloader = 0;
+}
+
+void AucDialog::progress(int f_val){
+  mp_ui->progressBar->setValue(f_val);
+}
+
+void AucDialog::maxprogress(int f_val){
+  mp_ui->progressBar->setMaximum(f_val);
 }
 
 QString AucDialog::getSelectedDrive(){

@@ -45,7 +45,8 @@ private slots:
   void selectFile();
   void buildInstaller();
   void downloadComplete(QString);
-
+  void progress(int);
+  void maxprogress(int);
 private:
   //private helpers
   void connectGui();

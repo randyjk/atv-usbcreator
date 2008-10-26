@@ -49,6 +49,7 @@ public:
 signals:
   void progress(int);
   void maxprogress(int);
+  void status(QString);
     
 private:
   AtvUsbCreatorBase* mp_creator; 
