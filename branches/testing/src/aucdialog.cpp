@@ -6,7 +6,8 @@
 
 //include our generated ui_h
 #include "ui_atvusb.h"
-//
+
+//local includes
 #include "aucDialog.h"
 #include "aucreleasedownloader.h"
 
@@ -97,7 +98,7 @@ void aucDialog::select_file(void) {
       status("Sorry, I'm having trouble encoding the filename "
             "of your livecd.  You may have better luck if "
             "you move your DMG to the root of your drive "
-             "(ie: C:\)");
+             "(ie: C:\\)");
     }
     status(dmgfile + " selected");
   }
@@ -331,13 +332,6 @@ void aucDialog::build_installer(void) {
 
 //---------------------------------------------------------------------- 
 void aucDialog::download_complete(QString f_path) {
-  /* Called by our ReleaseDownloader thread upon completion.
-
-  Upon success, the thread passes in the filename of the downloaded
-  release.  If the 'dmg' argument is not an existing file, then
-  it is assumed that the download failed and 'dmg' should contain
-   the error message.
-   */
   if (QFile::exists(f_path)){
     status("Download complete!");
     mp_creator->setDMGPath(f_path.toStdString());
@@ -370,16 +364,6 @@ QString aucDialog::get_selected_drive(void) {
 
 //---------------------------------------------------------------------- 
 QString aucDialog::get_appletv_dmg_url(void) {
-
-  assert(0);
-  /*
-   #import urllib
-   #from xml.dom import minidom
-   #
-   #xml_doc = minidom.parse(urllib.urlopen('http://mesu.apple.com/version.xml'))
-   #self.atv_dmg_url = xml_doc.getElementsByTagName('dict')[1].getElementsByTagName('string')[1].firstChild.data
-   #self.atv_dmg_url = 'http://mesu.apple.com/data/OS/061-4632.2080414.gt5rW/2Z694-5428-3.dmg'
-   self.atv_dmg_url = atv_dmg_info[0]['url']
-   
-  */
+  assert(0); //TODO
+  return QString(); //return QString::fromStdString(atv_dmg_info.url);
 }

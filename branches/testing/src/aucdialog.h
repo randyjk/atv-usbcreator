@@ -63,7 +63,15 @@ private slots:
   void update_options3_fromcheckbox(void);
   void populate_devices(void);
   void build_installer(void);
-  void download_complete(QString);
+  
+  /**
+   * Called by our ReleaseDownloader thread upon completion.
+   * Upon success, the thread passes in the filename of the downloaded release.
+   * @param f_dmg   If the 'dmg' argument is not an existing file, then
+   * it is assumed that the download failed and 'dmg' should contain
+   * the error message.
+   */
+  void download_complete(QString f_dmg);
   void progress(int);
   void maxprogress(int);
 private:
