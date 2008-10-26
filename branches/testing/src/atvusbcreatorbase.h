@@ -68,26 +68,15 @@ public:
   
   void setDrive(const std::string &fcr_path);
     
-    
-  void load_installers(void);
-  void load_patchsticks(void);
-  void load_packages(PATCHSTICK &patchstick);
-  
   typedef std::vector<std::string> tDeviceList;
   virtual void detect_removable_drives() = 0;
   const tDeviceList& getcrDevices();
   
+  //get access to InfoData
+  InfoData& getrInfoData();
   
   //get access to logger functionality
   Logger& logger();
-  
-  std::vector<INSTALLER>  m_installers;
-  std::vector<PATCHSTICK> m_patchsticks;
-  std::vector<PACKAGE>    m_packages;
-  std::vector<RESTORE>    m_restore;
-  std::vector<BACKUP>     m_backup;
-  std::vector<LINUX_VIDEO> m_linux_video;
-  std::vector<LINUX_IR>   m_linux_ir;
   
 protected:
   tDeviceList             m_devices; //gets populated in platform specific implementation
@@ -97,6 +86,7 @@ private:
   std::string             m_bootefi_path;
   std::string             m_drive;
   Logger                  m_logger;
+  InfoData                m_info_data;
 };
 #endif //ATVUSBCREATORBASE_H
 

@@ -55,9 +55,10 @@ aucDialog::~aucDialog() {
 //---------------------------------------------------------------------- 
 void aucDialog::set_installers(void) {
   int             index;
-
-  for( index = 0; index < (int)mp_creator->m_installers.size(); index++) {
-    mp_ui->installerMenu->addItem( mp_creator->m_installers[index].name.c_str() );
+  InfoData& data = mp_creator->getrInfoData();
+  
+  for( index = 0; index < (int)data.installers().size(); index++) {
+    mp_ui->installerMenu->addItem( data.installers()[index].name.c_str() );
   }
   mp_ui->installerMenu->setCurrentIndex(1);
 }
@@ -108,9 +109,10 @@ void aucDialog::select_file(void) {
 
 //---------------------------------------------------------------------- 
 void aucDialog::set_installer_pict(void) {
-  INSTALLER       *installer;
+  const INSTALLER       *installer;
+  InfoData& data = mp_creator->getrInfoData();
   // change the header image to match installer
-  installer = &mp_creator->m_installers[mp_ui->installerMenu->currentIndex()];
+  installer = &data.installers()[mp_ui->installerMenu->currentIndex()];
   mp_ui->headerLabel->setPixmap(QPixmap( installer->pict.c_str() ));
 }
 
@@ -118,25 +120,25 @@ void aucDialog::set_installer_pict(void) {
 void aucDialog::set_installer_options(void) {
   int             index;
   INSTALLER       *installer;
-
-  for( index = 0; index < (int)mp_creator->m_installers.size(); index++) {
-    mp_creator->m_installers[index].install = false;
+  InfoData& data = mp_creator->getrInfoData();
+  for( index = 0; index < (int)data.installers().size(); index++) {
+    data.installers()[index].install = false;
   }
 
   // populate first options menu
-  installer = &mp_creator->m_installers[mp_ui->installerMenu->currentIndex()];
+  installer = &data.installers()[mp_ui->installerMenu->currentIndex()];
   installer->install = true;
   //
   mp_ui->installMenu_1->clear();
   mp_ui->installMenu_1->setEnabled(true);
   if ( installer->option1.find("backup") != std::string::npos ) {
-    for( index = 0; index < (int)mp_creator->m_backup.size(); index++) {
-      mp_ui->installMenu_1->addItem( mp_creator->m_backup[index].name.c_str() );
+    for( index = 0; index < (int)data.backups().size(); index++) {
+      mp_ui->installMenu_1->addItem( data.backups()[index].name.c_str() );
     }
     //
   } else if ( installer->option1.find("restore") != std::string::npos ) {
-    for( index = 0; index < (int)mp_creator->m_restore.size(); index++) {
-      mp_ui->installMenu_1->addItem( mp_creator->m_restore[index].name.c_str() );
+    for( index = 0; index < (int)data.restores().size(); index++) {
+      mp_ui->installMenu_1->addItem( data.restores()[index].name.c_str() );
     }
     //
   } else {
@@ -147,19 +149,20 @@ void aucDialog::set_installer_options(void) {
   mp_ui->installMenu_2->clear();
   mp_ui->installMenu_2->setEnabled(true);
   if ( installer->option2.find("patchsticks") != std::string::npos ) {
-    mp_creator->load_patchsticks();
-    for( index = 0; index < (int)mp_creator->m_patchsticks.size(); index++) {
-      mp_ui->installMenu_2->addItem( mp_creator->m_patchsticks[index].name.c_str() );
+    //TODO: why was this loaded here?
+    //mp_creator->load_patchsticks();
+    for( index = 0; index < (int)data.patchsticks().size(); index++) {
+      mp_ui->installMenu_2->addItem( data.patchsticks()[index].name.c_str() );
     }
     //
   } else if ( installer->option2.find("linux_video") != std::string::npos ) {
-    for( index = 0; index < (int)mp_creator->m_linux_video.size(); index++) {
-      mp_ui->installMenu_2->addItem( mp_creator->m_linux_video[index].name.c_str() );
+    for( index = 0; index < (int)data.linux_video().size(); index++) {
+      mp_ui->installMenu_2->addItem( data.linux_video()[index].name.c_str() );
     }
     //
   } else if ( installer->option2.find("linux_ir") != std::string::npos ) {
-    for( index = 0; index < (int)mp_creator->m_linux_ir.size(); index++) {
-      mp_ui->installMenu_2->addItem( mp_creator->m_linux_ir[index].name.c_str() );
+    for( index = 0; index < (int)data.linux_ir().size(); index++) {
+      mp_ui->installMenu_2->addItem( data.linux_ir()[index].name.c_str() );
     }
     //
   } else {
@@ -176,9 +179,9 @@ void aucDialog::update_options2(void) {
   int             index;
   INSTALLER       *installer;
   PATCHSTICK      *patchstick;
-
+  InfoData& data = mp_creator->getrInfoData();
   // second options menu changed, update third options menu
-  installer = &mp_creator->m_installers[mp_ui->installerMenu->currentIndex()];
+  installer = &data.installers()[mp_ui->installerMenu->currentIndex()];
   //
   mp_ui->installMenu_3->clear();
   // watch the enable state, we start disabled here and
@@ -186,20 +189,21 @@ void aucDialog::update_options2(void) {
   mp_ui->installMenu_3->setEnabled(true);
   mp_ui->installCheckbox->setEnabled(false);
   if ( installer->option2.find("patchsticks") != std::string::npos ) {
-    patchstick = &mp_creator->m_patchsticks[mp_ui->installMenu_2->currentIndex()];
+    patchstick = &data.patchsticks()[mp_ui->installMenu_2->currentIndex()];
     if ( patchstick->depends.find("atv-") != std::string::npos ) {
-      mp_creator->load_packages(*patchstick);
+      //TODO: why are the loaded here?
+      //mp_creator->load_packages(*patchstick);
       //
-      for( index = 0; index < (int)mp_creator->m_packages.size(); index++) {
-        if ( mp_creator->m_packages[index].install) {
-          mp_ui->installMenu_3->addItem(QIcon(":/install.png"), mp_creator->m_packages[index].name.c_str());
+      for( index = 0; index < (int)data.packages(*patchstick).size(); index++) {
+        if ( data.packages(*patchstick)[index].install) {
+          mp_ui->installMenu_3->addItem(QIcon(":/install.png"), data.packages(*patchstick)[index].name.c_str());
         } else {
-          mp_ui->installMenu_3->addItem(QIcon(":/uninstall.png"), mp_creator->m_packages[index].name.c_str());
+          mp_ui->installMenu_3->addItem(QIcon(":/uninstall.png"), data.packages(*patchstick)[index].name.c_str());
         }
       }
       mp_ui->installMenu_3->setCurrentIndex(0);
       //
-      if ( mp_creator->m_packages[mp_ui->installMenu_3->currentIndex()].install ) {
+      if ( data.packages(*patchstick)[mp_ui->installMenu_3->currentIndex()].install ) {
         mp_ui->installCheckbox->setCheckState(Qt::Checked);
       } else {
         mp_ui->installCheckbox->setCheckState(Qt::Unchecked);

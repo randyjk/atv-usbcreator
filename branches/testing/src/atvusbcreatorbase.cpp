@@ -1,12 +1,7 @@
-
-
-#include "default_list.h"
 #include "atvusbcreatorbase.h"
 //---------------------------------------------------------------------- 
 AtvUsbCreatorBase::AtvUsbCreatorBase() {
-
-  load_installers();
-
+  m_info_data.populateWithDefaults();
 }
 
 //---------------------------------------------------------------------- 
@@ -39,62 +34,6 @@ void AtvUsbCreatorBase::setDrive(const std::string &fcr_path) {
   m_drive = fcr_path;
 }
 
-//---------------------------------------------------------------------- 
-void AtvUsbCreatorBase::load_installers(void) {
-  int       index;
-  
-  for( index = 0; index < 8; index++) {
-    if ( installers[index].enable ) {
-      m_installers.push_back(installers[index]);
-    }
-  }
-
-  for( index = 0; index < 2; index++) {
-    m_backup.push_back(backup[index]);
-  }
-  
-  for( index = 0; index < 2; index++) {
-    m_restore.push_back(restore[index]);
-  }
-
-  for( index = 0; index < 18; index++) {
-    m_linux_video.push_back(linux_video[index]);
-  }
-
-  for( index = 0; index < 2; index++) {
-    m_linux_ir.push_back(linux_ir[index]);
-  }
-}
-
-//---------------------------------------------------------------------- 
-void AtvUsbCreatorBase::load_patchsticks(void) {
-  int       index;
-  
-  m_patchsticks.clear();
-
-  for( index = 0; index < 6; index++) {
-    if ( patchsticks[index].enable ) {
-      m_patchsticks.push_back(patchsticks[index]);
-    }
-  }
-}
-
-//---------------------------------------------------------------------- 
-void AtvUsbCreatorBase::load_packages(PATCHSTICK &patchstick) {
-  int       index;
-  
-  m_packages.clear();
-  
-  for( index = 0; index < 21; index++) {
-    if ( packages[index].enable ) {
-      std::string::size_type loc = packages[index].depends.find(patchstick.depends, 0);
-      if( loc != std::string::npos ) {
-        m_packages.push_back(packages[index]);
-      }
-    }
-  }
-}
-
 //----------------------------------------------------------------------   
 void AtvUsbCreatorBase::detect_removable_drives(){
   assert(0 && "implement me!");
@@ -103,6 +42,11 @@ void AtvUsbCreatorBase::detect_removable_drives(){
 //---------------------------------------------------------------------- 
 const AtvUsbCreatorBase::tDeviceList& AtvUsbCreatorBase::getcrDevices(){
   return m_devices;
+}
+
+//---------------------------------------------------------------------- 
+InfoData& AtvUsbCreatorBase::getrInfoData(){
+  return m_info_data;
 }
 
 //---------------------------------------------------------------------- 

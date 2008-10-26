@@ -1,8 +1,8 @@
 #ifndef DEFAULT_LIST_H
 #define DEFAULT_LIST_H
 
-#include <lists.h>
-
+#include "lists.h"
+namespace default_data{
 // openssl dgst -sha1
 DMG_INFO atv_dmg_info = {
   "AppleTV Update 2.1",
@@ -472,5 +472,5 @@ LINUX_IR linux_ir[2] = {
     "MS MCE USB IR",
   },
 };
-
+}
 #endif
