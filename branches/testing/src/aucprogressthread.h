@@ -43,8 +43,8 @@ signals:
   void progress(int);
   
 private:
-  int m_size;
-  int m_freebytes;
+  int m_total_size;
+  int m_orig_free;
   int m_get_free_bytes;
   QString m_drive;
 };

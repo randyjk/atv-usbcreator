@@ -1,7 +1,7 @@
 #include "aucprogressthread.h"
 
 AucProgressThread::AucProgressThread(QObject* fp_parent):
-  QThread(fp_parent), m_size(0), m_freebytes(0), m_get_free_bytes(0)
+  QThread(fp_parent), m_total_size(0), m_orig_free(0), m_get_free_bytes(0)
 {
 }
 
@@ -10,37 +10,26 @@ AucProgressThread::~AucProgressThread(){
 }
 
 void AucProgressThread::setData(int f_size, QString f_drive, int f_freebytes){
-/*
-#---------------------------------------------------------------------------------
-  def set_data(self, size, drive, freebytes):
-  self.totalsize = size / 1024
-  self.drive = drive
-  self.get_free_bytes = freebytes
-  self.orig_free = self.get_free_bytes()
-  self.emit(QtCore.SIGNAL("maxprogress(int)"), self.totalsize)
-  */
+  m_total_size = f_size / 1024;
+  m_drive = f_drive;
+  m_get_free_bytes = f_freebytes;
+  m_orig_free = m_get_free_bytes;
+  emit maxprogress(m_total_size) ;
 }
 
 
 void AucProgressThread::run(){
-/*
-#---------------------------------------------------------------------------------
-def run(self):
-while True:
-free = self.get_free_bytes()
-value = (self.orig_free - free) / 1024
-self.emit(QtCore.SIGNAL("progress(int)"), value)
-if value >= self.totalsize:
-break
-sleep(4)
-*/
+  while (true){
+    int value = (m_orig_free - m_get_free_bytes) / 1024;
+    emit progress(value);
+    if (value >= m_total_size)
+      break;
+    sleep(4000);
+  }
 }
 
 void AucProgressThread::terminate(){
-/*
-#---------------------------------------------------------------------------------
-def terminate(self):
-self.emit(QtCore.SIGNAL("progress(int)"), self.totalsize)
-QtCore.QThread.terminate(self)
-*/
+
+  emit progress(m_total_size);
+  QThread::terminate();
 }
