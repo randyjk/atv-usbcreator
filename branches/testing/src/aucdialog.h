@@ -42,27 +42,27 @@ public slots:
   void status(QString f_message);
   
 private slots:
-  void selectFile(void);
-  void buildInstaller(void);
-  void downloadComplete(QString);
-  void progress(int);
-  void maxprogress(int);
-private:
-  //private helpers
-  void connect_slots(void);
-  void set_installers(void);
+  void select_file(void);
   void set_installer_pict(void);
   void set_installer_options(void);
   void update_options2(void);
   void update_options3(void);
   void update_options3_fromcheckbox(void);
   void populate_devices(void);
+  void build_installer(void);
+  void download_complete(QString);
+  void progress(int);
+  void maxprogress(int);
+private:
+  //private helpers
+  void set_installers(void);
+  void connect_slots(void);
   
   static AtvUsbCreatorBase* createPlatformSpecificCreator();
-  void enableWidgets(bool f_enable=true);
+  void enable_widgets(bool f_enable=true);
 
-  QString getSelectedDrive(void);
-  QString getAtvDmgUrl(void);
+  QString get_selected_drive(void);
+  QString get_appletv_dmg_url(void);
   
   //members
   Ui::aucDialog*        mp_ui;

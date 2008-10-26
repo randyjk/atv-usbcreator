@@ -39,8 +39,10 @@ struct Logger {
 
 //---------------------------------------------------------------------- 
 class AtvUsbCreatorBase {
-
 public:
+          AtvUsbCreatorBase();
+  virtual ~AtvUsbCreatorBase();
+
   void setDMGPath(const std::string &fcr_path);
   const std::string& getcrDMGPath() const;
   
@@ -57,10 +59,15 @@ public:
   //get access to logger functionality
   Logger& logger();
   
-private:
   std::vector<INSTALLER>  m_installers;
   std::vector<PATCHSTICK> m_patchsticks;
   std::vector<PACKAGE>    m_packages;
+  std::vector<RESTORE>    m_restore;
+  std::vector<BACKUP>     m_backup;
+  std::vector<LINUX_VIDEO> m_linux_video;
+  std::vector<LINUX_IR>   m_linux_ir;
+  
+private:
   std::string             m_dmg_path;
   std::string             m_bootefi_path;
   std::string             m_drive;
