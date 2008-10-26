@@ -28,8 +28,7 @@
 //---------------------------------------------------------------------- 
 //---------------------------------------------------------------------- 
 aucDialog::aucDialog(): QDialog(), mp_ui(new Ui::aucDialog), 
-  //mp_creator(createPlatformSpecificCreator() ), 
-  mp_creator(new AtvUsbCreatorBase ), 
+  mp_creator(createPlatformSpecificCreator() ), 
   m_progress_thread(), 
   m_thread(mp_creator, &m_progress_thread, this)
 {

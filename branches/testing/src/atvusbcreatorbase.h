@@ -42,7 +42,7 @@
 
 #include "lists.h"
 
-class AtvUsbCreatorException : public std::runtime_error{
+struct AtvUsbCreatorException : public std::runtime_error{
   AtvUsbCreatorException(const std::string &fcr_message):std::runtime_error(fcr_message){
   }
 };
@@ -74,7 +74,7 @@ public:
   void load_packages(PATCHSTICK &patchstick);
   
   typedef std::vector<std::string> tDeviceList;
-  void detect_removable_drives();
+  virtual void detect_removable_drives() = 0;
   const tDeviceList& getcrDevices();
   
   
@@ -89,11 +89,13 @@ public:
   std::vector<LINUX_VIDEO> m_linux_video;
   std::vector<LINUX_IR>   m_linux_ir;
   
+protected:
+  tDeviceList             m_devices; //gets populated in platform specific implementation
+  
 private:
   std::string             m_dmg_path;
   std::string             m_bootefi_path;
   std::string             m_drive;
-  tDeviceList             m_devices;
   Logger                  m_logger;
 };
 #endif //ATVUSBCREATORBASE_H

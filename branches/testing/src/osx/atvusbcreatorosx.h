@@ -40,6 +40,8 @@
 class AtvUsbCreatorOSX: public AtvUsbCreatorBase
 {
 public:
+  /** Detect all removable USB storage devices using DiskUtil */
+  virtual void detect_removable_drives();
 private:
 
 };
