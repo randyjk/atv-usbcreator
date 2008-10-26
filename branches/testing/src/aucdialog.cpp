@@ -109,7 +109,7 @@ void AucDialog::enableWidgets(bool f_enable){
 void AucDialog::buildInstaller(){
   enableWidgets(false);
   mp_creator->setDrive(getSelectedDrive().toStdString());
-  if (QFile::exists(QString::fromStdString(mp_creator->getcrBootEfiPath()))){
+  if (QFile::exists(QString::fromStdString(mp_creator->getcrBootEFIPath()))){
     //if boot.efi exits just use it
     m_thread.start();
   } else {

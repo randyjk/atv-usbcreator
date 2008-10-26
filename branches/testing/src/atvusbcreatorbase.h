@@ -25,6 +25,10 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
+
+#include "Lists.h"
+
 
 //just a dummy for a proper logger
 struct Logger {
@@ -33,25 +37,37 @@ struct Logger {
   }
 };
 
+//---------------------------------------------------------------------- 
 class AtvUsbCreatorBase
 {
 
 public:
-  void setDMGPath(const std::string& fcr_path);
+  void setDMGPath(const std::string &fcr_path);
   const std::string& getcrDMGPath() const;
   
-  void setBootEfiPath(const std::string& fcr_path);
-  const std::string& getcrBootEfiPath() const;
+  void setBootEFIPath(const std::string &fcr_path);
+  const std::string& getcrBootEFIPath() const;
   
-  void setDrive(const std::string& fcr_path);
+  void setDrive(const std::string &fcr_path);
     
+    
+  void load_installers(void);
+  void load_patchsticks(void);
+  void load_packages(PATCHSTICK &patchstick);
+  
   //get access to logger functionality
   Logger& logger();
   
 private:
-  std::string m_dmg_path;
-  std::string m_bootefi_path;
-  std::string m_drive;
-  Logger m_logger;
+  std::vector<INSTALLER>  m_installers;
+  std::vector<PATCHSTICK> m_patchsticks;
+  std::vector<PACKAGE>    m_packages;
+  std::string             m_dmg_path;
+  std::string             m_bootefi_path;
+  std::string             m_drive;
+  Logger                  m_logger;
 };
 #endif //ATVUSBCREATORBASE_H
+
+
+
