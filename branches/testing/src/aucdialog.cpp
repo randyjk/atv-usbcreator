@@ -1,13 +1,13 @@
-#include "aucdialog.h"
 
 #include <stdexcept>
 
 #include <QtGui/QFileDialog>
 
-#include "aucreleasedownloader.h"
-
 //include our generated ui_h
 #include "ui_atvusb.h"
+
+#include "aucdialog.h"
+#include "aucreleasedownloader.h"
 
 //probably move this include hassle into an atvusbcreatorfactory.h
 #ifdef WIN32
@@ -23,6 +23,7 @@
 #endif
 #endif
 
+//---------------------------------------------------------------------- 
 AucDialog::AucDialog(): QDialog(), mp_ui(new Ui::AucDialog), 
   mp_creator(createPlatformSpecificCreator()), 
   m_progress_thread(), 
@@ -33,14 +34,16 @@ AucDialog::AucDialog(): QDialog(), mp_ui(new Ui::AucDialog),
   connectGui();
 }
 
-AucDialog::~AucDialog(){
+//---------------------------------------------------------------------- 
+AucDialog::~AucDialog() {
   delete mp_ui;  
   delete mp_creator;
 }
 
-void AucDialog::selectFile(){
+//---------------------------------------------------------------------- 
+void AucDialog::selectFile() {
   QString dmgfile = QFileDialog::getOpenFileName(this,"Select AppleTV Update DMG", ".", "DMG (*.dmg)" );
-  if( dmgfile.size() ){
+  if( dmgfile.size() ) {
     try {
       //TODO what's the _to_unicode_thing? how can it go wrong?
       //self.live.dmg = self._to_unicode(dmgfile)
@@ -57,7 +60,8 @@ void AucDialog::selectFile(){
   }
 }
 
-void AucDialog::connectGui(){
+//---------------------------------------------------------------------- 
+void AucDialog::connectGui() {
   connect(mp_ui->browseButton, SIGNAL(clicked()), this, SLOT(selectFile()));
   connect(mp_ui->startButton,  SIGNAL(clicked()), this, SLOT(buildInstaller()));
   connect(mp_ui->installerMenu,  SIGNAL(currentIndexChanged(int)), this, SLOT(set_installer_pict()));
@@ -77,7 +81,8 @@ void AucDialog::connectGui(){
   connect(&m_download_progress, SIGNAL(maxprogress(int)), this, SLOT(maxprogress(int)));
 }
 
-AtvUsbCreatorBase* AucDialog::createPlatformSpecificCreator(){
+//---------------------------------------------------------------------- 
+AtvUsbCreatorBase* AucDialog::createPlatformSpecificCreator() {
 //probably move this include hassle into an atvusbcreatorfactory.h
 #ifdef WIN32
   return new AtvUsbCreatorWin32;
@@ -90,11 +95,13 @@ AtvUsbCreatorBase* AucDialog::createPlatformSpecificCreator(){
 #endif  
 }
 
-void AucDialog::status(QString f_message){
+//---------------------------------------------------------------------- 
+void AucDialog::status(QString f_message) {
   mp_ui->statusInfoEdit->append(f_message);
 }
 
-void AucDialog::enableWidgets(bool f_enable){
+//---------------------------------------------------------------------- 
+void AucDialog::enableWidgets(bool f_enable) {
   mp_ui->startButton->setEnabled(f_enable);
   mp_ui->browseButton->setEnabled(f_enable);
   mp_ui->installerMenu->setEnabled(f_enable);
@@ -106,7 +113,8 @@ void AucDialog::enableWidgets(bool f_enable){
   mp_ui->deviceRefreshButton->setEnabled(f_enable);
 }
 
-void AucDialog::buildInstaller(){
+//---------------------------------------------------------------------- 
+void AucDialog::buildInstaller() {
   enableWidgets(false);
   mp_creator->setDrive(getSelectedDrive().toStdString());
   if (QFile::exists(QString::fromStdString(mp_creator->getcrBootEFIPath()))){
@@ -135,7 +143,8 @@ void AucDialog::buildInstaller(){
   }
 }
 
-void AucDialog::downloadComplete(QString f_path){
+//---------------------------------------------------------------------- 
+void AucDialog::downloadComplete(QString f_path) {
   /* Called by our ReleaseDownloader thread upon completion.
 
   Upon success, the thread passes in the filename of the downloaded
@@ -156,21 +165,25 @@ void AucDialog::downloadComplete(QString f_path){
   mp_release_downloader = 0;
 }
 
-void AucDialog::progress(int f_val){
+//---------------------------------------------------------------------- 
+void AucDialog::progress(int f_val) {
   mp_ui->progressBar->setValue(f_val);
 }
 
-void AucDialog::maxprogress(int f_val){
+//---------------------------------------------------------------------- 
+void AucDialog::maxprogress(int f_val) {
   mp_ui->progressBar->setMaximum(f_val);
 }
 
-QString AucDialog::getSelectedDrive(){
+//---------------------------------------------------------------------- 
+QString AucDialog::getSelectedDrive() {
   //TODO: fix this when we know what needs to be done here
   return mp_ui->deviceCombo->currentText();
   //.split()[0];
 }
 
-QString AucDialog::getAtvDmgUrl(){
+//---------------------------------------------------------------------- 
+QString AucDialog::getAtvDmgUrl() {
 
   assert(0);
   /*

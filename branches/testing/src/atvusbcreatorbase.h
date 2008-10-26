@@ -38,8 +38,7 @@ struct Logger {
 };
 
 //---------------------------------------------------------------------- 
-class AtvUsbCreatorBase
-{
+class AtvUsbCreatorBase {
 
 public:
   void setDMGPath(const std::string &fcr_path);
