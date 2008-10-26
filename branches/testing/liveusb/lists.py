@@ -53,7 +53,7 @@ hfs_info = (
 installers = (
     {
         'name'   : 'ATV-Bootloader',
-        'pict'   : ':/atv-bootloader.png',
+        'pict'   : ':atv-bootloader.png',
         'url'    : 'http://atv-bootloader.googlecode.com',
         'sha1'   : '0000000000000000000000000000000000000000',
         'enable' : True,
@@ -273,7 +273,6 @@ packages = (
         'name'   : 'iScripts',
         'enable' : False,
         'depends': 'atv-2.0, atv-2.1',
-        'depends': 'None',
         'install': False,
         'url'    : 'http://iscripts.googlecode.com/files/Scripts-1.2.2.tar.gz',
         'type'   : 'plugin',
