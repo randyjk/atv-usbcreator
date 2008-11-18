@@ -146,3 +146,58 @@ The ATVMod-patchstick is started using the standard atv-bootloader (atvboot=patc
  * "/mnt/rootfs/payload/restore" is only for factory restore usage
  * "/mnt/rootfs/payload/backup" is only for holding a backup of the recovery partition (contents)
 
+
+
+{{{
+ATV r2.0 mach kernel patch
+
+./poke mach_kernel_patched.bin 0x51f55e 0x75:0x75 0x34:0x30
+if [ $? -ne 0 ]; then exit 1; fi
+
+./poke mach_kernel_patched.bin 0x52023e 0x75:0x75 0x34:0x30
+if [ $? -ne 0 ]; then exit 1; fi
+
+./poke mach_kernel_patched.bin 0x51f576 0x75:0x75 0x1c:0x18
+if [ $? -ne 0 ]; then exit 1; fi
+
+./poke mach_kernel_patched.bin 0x520256 0x75:0x75 0x1c:0x18
+if [ $? -ne 0 ]; then exit 1; fi
+
+}}}
+
+{{{
+ATV AppleTV 2.0.1, 2.0.2 or 2.1 mach kernel patch
+
+./poke mach_kernel_patched.bin 0x52055E 0x75:0x75 0x34:0x30
+if [ $? -ne 0 ]; then exit 1; fi
+
+./poke mach_kernel_patched.bin 0x52123E 0x75:0x75 0x34:0x30
+if [ $? -ne 0 ]; then exit 1; fi
+
+./poke mach_kernel_patched.bin 0x520576 0x75:0x75 0x1c:0x18
+if [ $? -ne 0 ]; then exit 1; fi
+
+./poke mach_kernel_patched.bin 0x521256 0x75:0x75 0x1c:0x18
+if [ $? -ne 0 ]; then exit 1; fi
+
+}}}
+
+{{{
+ATV AppleTV 2.2 mach kernel patch
+
+}}}
+
+{{{
+2.0 patch kernel watchdog
+
+./poke mach_kernel_patched.bin 0xB94835 0x70:0x00 0xD1:0x00
+if [ $? -ne 0 ]; then exit 1; fi
+
+2.0.1 and 2.0.2 patch kernel watchdog (nito comment)
+
+./poke mach_kernel_patched.bin 0xAC6835 0x90:0x00 0xC4:0x00
+if [ $? -ne 0 ]; then exit 1; fi
+
+
+}}}
+
