@@ -1,0 +1,8 @@
+#summary A comprehensive consolidation of all information needed to get started with a patchsticked Apple TV with links to other resources.
+
+= Introduction =
+
+There are many benefits to modifying your Apple TV, such as the ability to use native Mac OS X Applications Boxee and XBMC on your device. The wiki on this project website will contain many resources and helpful notes for your aid.
+
+
+
