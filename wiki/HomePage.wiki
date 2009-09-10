@@ -8,7 +8,7 @@ http://atvusb-creator.googlecode.com/svn/branches/wiki-images/atv-bootloader.png
 
 The Intel/PPC OSX version of  [http://atvusb-creator.googlecode.com/files/atvusb-creator-1.0.b10.zip atvusb-creator]. 
 
-The Windows XP/Vista interim solution [http://atvusb-creator.googlecode.com/files/atv-win-1.0.b12.zip atv-win]
+The Windows XP/Vista interim solution [http://atvusb-creator.googlecode.com/files/atv-win-2.0.zip atv-win]
 
 *Note that the current version is atvusb-creator-1.0.b10 and atv-win-2.0.zip*
 
