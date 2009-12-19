@@ -1,4 +1,5 @@
 #summary The complete guide for patchsticking an Apple TV on Windows
+#labels Featured
 
 = Apple TV Patchstick Creator for Windows =
 
@@ -16,4 +17,14 @@ Current FW support: 2.x
 
 = Contents =
 
-This will be updated shortly. 
+[http://code.google.com/p/atvusb-creator/wiki/atvwinChangelog Changelog]
+
+[http://code.google.com/p/atvusb-creator/wiki/atvwinFirmwareGuide Firmware Guide]
+
+[http://code.google.com/p/atvusb-creator/wiki/atvWinPatchstickGuide Patchstick Guide]
+
+[http://code.google.com/p/atvusb-creator/wiki/atvwinTroubleshooting Troubleshooting Guide]
+
+[http://code.google.com/p/atvusb-creator/wiki/UsingSSH SSH Guide]
+
+If you feel that something has been omitted, please let us know.
