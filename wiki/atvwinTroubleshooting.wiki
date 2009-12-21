@@ -12,6 +12,10 @@ Below are a list of common problems and the solutions to them.
 
 *A*: Fortunately, restoring an empty 512-byte boot sector will fix this problem. Download [http://www.alexpage.de/download/usbit/bootsector.img this] file from the developer's website.
 
+*Q*: I get error code 3 when trying to restore my to my USB.
+
+*A*: This is because our patchstick wraps the bootloader as a GPT partition which is unrecognisable by Windows. As it is the active partition the payloads partition which is FAT32 is not visible. Go to Control Panel > Administrative Tools > Disk Management. Right click and delete the 25MB partition on the drive. Make sure it is the right drive selected. Windows will now recognise the USB again, and thus will USB Image Tool.
+
 *Q*: How do I get rid of Launcher & XBMC/Boxee
 
 *A*: To delete Launcher and XBMC:
