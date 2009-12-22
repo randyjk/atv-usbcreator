@@ -9,11 +9,11 @@ underway with your new and improved Apple TV. An attempt to consolidate all know
 
 == General Information: ==
 
-Latest Version: 2.0
+Latest Version: 3.0
 
 Build Date: 6th Sept 2009
 
-Current FW support: 2.x
+Current FW support: 3.x
 
 = Contents =
 
